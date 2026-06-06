@@ -1,0 +1,18 @@
+{
+  "name": "Nutrify - Know What You Eat",
+  "short_name": "Nutrify",
+  "description": "Personalized nutrition calculator and daily food log to track calories and macronutrients.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2921/2921822.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

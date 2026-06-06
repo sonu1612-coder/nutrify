@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nutrify — Know What You Eat</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1117">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+<div class="app" id="app-root" style="display:none;">
+  <!-- Mobile Top Bar -->
+  <div class="mob-bar">
+    <div class="mob-logo">Nutrify</div>
+    <button class="mob-menu" onclick="document.getElementById('sidebar').classList.toggle('open')">
+      <i class="ph ph-list" style="font-size:24px;"></i>
+    </button>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="logo-area">
+      <div class="logo-row">
+        <div class="logo-gem"><i class="ph ph-leaf" style="color:#000;"></i></div>
+        <div>
+          <div class="logo-name">Nutrify</div>
+          <div class="logo-ver">Pro v1.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-area">
+      <div class="nav-lbl">Menu</div>
+      <button class="nb active nav-item" data-target="dashboard">
+        <i class="ph ph-squares-four"></i> Dashboard
+      </button>
+      <button class="nb nav-item" data-target="food-logger">
+        <i class="ph ph-magnifying-glass"></i> Search Foods
+      </button>
+      <button class="nb nav-item" data-target="scanner">
+        <i class="ph ph-barcode"></i> Barcode Scan
+      </button>
+    </div>
+    <div class="sidebar-foot">
+      <div class="user-row nav-item" data-target="profile">
+        <div class="uav">U</div>
+        <div>
+          <div class="uname">My Profile</div>
+          <div class="umeta">Settings & Goals</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="ph">
+      <div class="ph-row">
+        <div>
+          <div class="ph-title" id="page-title">Dashboard</div>
+          <div class="ph-sub" id="page-sub">Your daily summary</div>
+        </div>
+        <div class="date-ctrl" id="date-ctrl">
+          <button class="dc-btn"><i class="ph ph-calendar-blank"></i></button>
+          <div class="dc-cur" id="current-date">Today</div>
+        </div>
+      </div>
+    </div>
+    <div class="content" id="content">
+      <!-- Views injected here -->
+    </div>
+  </div>
+</div>
+
+<!-- Onboarding / Profile Setup Wrapper -->
+<div class="ob-wrap" id="ob-wrap">
+  <!-- Profile form injected here initially -->
+</div>
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="calculator.js"></script>
+<script src="nutritionApi.js"></script>
+<script src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW fail: ', err));
+    });
+  }
+</script>
+</body>
+</html>
