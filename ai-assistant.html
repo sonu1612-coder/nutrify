@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Nutrify — AI Guide</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Google Fonts & Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .chat-container {
+      height: calc(100vh - 270px);
+    }
+  </style>
+  <!-- Tailwind Configuration -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#f8f9ff",
+            "primary": "#006e2f",
+            "tertiary": "#9d4300",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#00714d",
+            "surface-variant": "#d3e4fe",
+            "on-surface-variant": "#3d4a3d",
+            "surface-container": "#e5eeff",
+            "secondary-container": "#6cf8bb",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#ffdbca",
+            "on-tertiary-fixed-variant": "#783200",
+            "tertiary-container": "#ff8e4d",
+            "inverse-primary": "#4ae176",
+            "error": "#ba1a1a",
+            "surface-bright": "#f8f9ff",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed": "#341100",
+            "secondary-fixed": "#6ffbbe",
+            "tertiary-fixed-dim": "#ffb690",
+            "primary-fixed": "#6bff8f",
+            "on-tertiary": "#ffffff",
+            "primary-fixed-dim": "#4ae176",
+            "error-container": "#ffdad6",
+            "outline-variant": "#bccbb9",
+            "on-surface": "#0b1c30",
+            "secondary-fixed-dim": "#4edea3",
+            "secondary": "#006c49",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#002109",
+            "surface-container-high": "#dce9ff",
+            "surface-container-low": "#eff4ff",
+            "surface-tint": "#006e2f",
+            "surface-container-highest": "#d3e4fe",
+            "surface-dim": "#cbdbf5",
+            "on-tertiary-container": "#6d2d00",
+            "primary-container": "#22c55e",
+            "background": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-primary-fixed-variant": "#005321",
+            "on-background": "#0b1c30",
+            "on-secondary-fixed": "#002113",
+            "on-primary-container": "#004b1e",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#005236",
+            "outline": "#6d7b6c",
+            "on-primary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "stack-md": "16px",
+            "stack-lg": "32px",
+            "unit": "8px",
+            "stack-sm": "8px",
+            "section-gap": "48px",
+            "gutter": "16px",
+            "container-margin": "24px"
+          },
+          "fontFamily": {
+            "display": ["Hanken Grotesk"],
+            "headline-md": ["Hanken Grotesk"],
+            "label-md": ["Hanken Grotesk"],
+            "title-lg": ["Hanken Grotesk"],
+            "headline-lg": ["Hanken Grotesk"],
+            "label-sm": ["Hanken Grotesk"],
+            "body-md": ["Hanken Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "headline-lg-mobile": ["Hanken Grotesk"]
+          },
+          "fontSize": {
+            "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col pb-20 md:pb-0">
+
+  <!-- Header -->
+  <header class="bg-surface sticky top-0 z-40 w-full border-b border-outline-variant/10">
+    <div class="flex justify-between items-center px-container-margin py-stack-sm w-full max-w-7xl mx-auto">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full overflow-hidden bg-primary/10 flex-shrink-0 flex items-center justify-center text-primary font-bold">
+          <span class="material-symbols-outlined text-2xl">leaf</span>
+        </div>
+        <h1 class="text-headline-md font-display font-extrabold text-primary">Nutify</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="noti-btn" class="material-symbols-outlined text-primary hover:bg-primary/5 p-2 rounded-full transition-colors active:scale-95">
+          notifications
+        </button>
+        <a href="profile.html" class="w-9 h-9 rounded-full overflow-hidden bg-surface-variant flex-shrink-0 border border-primary/20 active:scale-95 transition-transform">
+          <img id="header-avatar" alt="User Avatar" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-grow w-full max-w-7xl mx-auto flex">
+    <!-- Desktop Side Navigation Bar (AI Active) -->
+    <nav class="hidden md:flex flex-col gap-6 bg-surface-container-lowest p-6 border-r border-outline-variant/10 w-64 flex-shrink-0 min-h-[calc(100vh-64px)]">
+      <div class="flex flex-col gap-2">
+        <a href="dashboard.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-on-surface-variant hover:bg-surface-variant/20 hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span class="font-semibold text-body-md">Dashboard</span>
+        </a>
+        <a href="meal-log.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-on-surface-variant hover:bg-surface-variant/20 hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">add_circle</span>
+          <span class="font-semibold text-body-md">Meal Log</span>
+        </a>
+        <a href="ai-assistant.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-primary bg-secondary-container/20 md:bg-secondary-container/30 transition-all duration-150">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">chat</span>
+          <span class="font-semibold text-body-md">Nutify Guide</span>
+        </a>
+        <a href="analytics.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-on-surface-variant hover:bg-surface-variant/20 hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">monitoring</span>
+          <span class="font-semibold text-body-md">Analytics</span>
+        </a>
+        <a href="profile.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-on-surface-variant hover:bg-surface-variant/20 hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">person</span>
+          <span class="font-semibold text-body-md">Profile & Goals</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Content Area -->
+    <main class="flex-grow p-4 md:p-8 max-w-3xl overflow-x-hidden flex flex-col">
+      <div class="flex-grow flex flex-col h-[calc(100vh-160px)] md:h-[calc(100vh-100px)]">
+        
+        <!-- Header -->
+        <div class="py-2.5 flex items-center justify-between border-b border-outline-variant/10">
+          <div>
+            <h2 class="text-title-lg font-bold text-on-surface leading-snug">Nutify Guide</h2>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              <span class="text-xs text-outline font-medium">System Online</span>
+            </div>
+          </div>
+          <button id="clear-chat-btn" class="material-symbols-outlined text-outline hover:text-error transition-colors p-2 rounded-full">delete</button>
+        </div>
+
+        <!-- Scrollable Messages -->
+        <div id="chat-window" class="flex-grow overflow-y-auto py-6 space-y-4 pr-1 scroll-smooth scroll-hide">
+          <!-- Populated by ai-assistant.js -->
+        </div>
+
+        <!-- Chips -->
+        <div class="py-2.5 flex flex-col items-center gap-2">
+          <p class="text-[10px] text-outline uppercase tracking-wider font-bold">Suggested Queries</p>
+          <div class="flex flex-wrap justify-center gap-2">
+            <button class="suggest-chip border border-primary text-primary hover:bg-primary hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold bg-white transition-all">
+              Is my diet balanced today?
+            </button>
+            <button class="suggest-chip border border-primary text-primary hover:bg-primary hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold bg-white transition-all">
+              Give me a high-protein snack idea
+            </button>
+            <button class="suggest-chip border border-primary text-primary hover:bg-primary hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold bg-white transition-all">
+              Check daily hydration tips
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="py-3 border-t border-outline-variant/10 bg-background sticky bottom-0">
+          <div class="relative max-w-2xl mx-auto">
+            <input id="chat-input" class="w-full bg-white border border-outline-variant/30 rounded-full py-3 pl-5 pr-14 focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-body-md shadow-sm transition-all" placeholder="Ask Nutify Guide anything...">
+            <button id="chat-send-btn" class="absolute right-1.5 top-1.5 bg-primary text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-on-primary-container active:scale-90 transition-all">
+              <span class="material-symbols-outlined text-lg">send</span>
+            </button>
+          </div>
+          <p class="text-center text-[10px] text-outline mt-1.5 italic">Verify critical medical data with a professional.</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar (AI Active) -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-surface-container-lowest border-t border-outline-variant/10 shadow-lg px-2 pb-4 pt-2 flex justify-around items-center rounded-t-2xl">
+    <a href="dashboard.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary px-3 py-1 transition-all">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="text-xs mt-0.5">Dashboard</span>
+    </a>
+    <a href="meal-log.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary px-3 py-1 transition-all">
+      <span class="material-symbols-outlined">add_circle</span>
+      <span class="text-xs mt-0.5">Meal Log</span>
+    </a>
+    <a href="ai-assistant.html" class="flex flex-col items-center justify-center text-primary bg-secondary-container/20 px-3 py-1 rounded-full transition-all">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">chat</span>
+      <span class="text-xs mt-0.5">Guide</span>
+    </a>
+    <a href="analytics.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary px-3 py-1 transition-all">
+      <span class="material-symbols-outlined">monitoring</span>
+      <span class="text-xs mt-0.5">Analytics</span>
+    </a>
+    <a href="profile.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary px-3 py-1 transition-all">
+      <span class="material-symbols-outlined">person</span>
+      <span class="text-xs mt-0.5">Profile</span>
+    </a>
+  </nav>
+
+  <!-- JS Controllers -->
+  <script src="ai-assistant.js"></script>
+</body>
+</html>

@@ -87,6 +87,66 @@
     "protein powder": {
       name: "Whey Protein Powder",
       nutritionPer100g: { calories: 400, protein: 80, carbs: 6, fat: 6 }
+    },
+    "roti": {
+      name: "Roti / Chapati (Wheat)",
+      nutritionPer100g: { calories: 264, protein: 8.0, carbs: 55.0, fat: 1.5 }
+    },
+    "chapati": {
+      name: "Roti / Chapati (Wheat)",
+      nutritionPer100g: { calories: 264, protein: 8.0, carbs: 55.0, fat: 1.5 }
+    },
+    "paneer": {
+      name: "Paneer (Cottage Cheese)",
+      nutritionPer100g: { calories: 265, protein: 18.0, carbs: 1.2, fat: 20.8 }
+    },
+    "dal": {
+      name: "Dal Tadka (Lentils)",
+      nutritionPer100g: { calories: 120, protein: 6.0, carbs: 18.0, fat: 2.5 }
+    },
+    "chicken biryani": {
+      name: "Chicken Biryani",
+      nutritionPer100g: { calories: 163, protein: 9.0, carbs: 22.0, fat: 4.5 }
+    },
+    "veg biryani": {
+      name: "Veg Biryani",
+      nutritionPer100g: { calories: 140, protein: 3.0, carbs: 24.0, fat: 3.5 }
+    },
+    "biryani": {
+      name: "Chicken Biryani",
+      nutritionPer100g: { calories: 163, protein: 9.0, carbs: 22.0, fat: 4.5 }
+    },
+    "idli": {
+      name: "Idli (Steamed Rice Cake)",
+      nutritionPer100g: { calories: 112, protein: 3.2, carbs: 23.0, fat: 0.4 }
+    },
+    "dosa": {
+      name: "Masala Dosa",
+      nutritionPer100g: { calories: 168, protein: 3.9, carbs: 29.0, fat: 3.7 }
+    },
+    "masala dosa": {
+      name: "Masala Dosa",
+      nutritionPer100g: { calories: 168, protein: 3.9, carbs: 29.0, fat: 3.7 }
+    },
+    "samosa": {
+      name: "Samosa",
+      nutritionPer100g: { calories: 262, protein: 4.5, carbs: 32.0, fat: 13.0 }
+    },
+    "chana masala": {
+      name: "Chana Masala (Chickpeas)",
+      nutritionPer100g: { calories: 130, protein: 5.0, carbs: 20.0, fat: 3.0 }
+    },
+    "butter chicken": {
+      name: "Butter Chicken",
+      nutritionPer100g: { calories: 210, protein: 14.0, carbs: 4.0, fat: 15.0 }
+    },
+    "aloo paratha": {
+      name: "Aloo Paratha (Stuffed)",
+      nutritionPer100g: { calories: 210, protein: 4.0, carbs: 35.0, fat: 6.0 }
+    },
+    "khichdi": {
+      name: "Khichdi (Rice & Lentils)",
+      nutritionPer100g: { calories: 110, protein: 3.5, carbs: 20.0, fat: 1.8 }
     }
   };
 

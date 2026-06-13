@@ -84,8 +84,25 @@
         carbs: Math.round((targetCalories * cRatio) / 4),
         fat: Math.round((targetCalories * fRatio) / 9)
       };
+    },
+
+    // Calculate BMI
+    calculateBMI(weightKg, heightCm) {
+      const w = parseFloat(weightKg) || 0;
+      const h = (parseFloat(heightCm) || 0) / 100; // convert cm to meters
+      if (h === 0) return 0;
+      return parseFloat((w / (h * h)).toFixed(1));
+    },
+
+    // Get BMI Category text
+    getBMICategory(bmi) {
+      if (bmi < 18.5) return 'Underweight';
+      if (bmi < 25) return 'Normal';
+      if (bmi < 30) return 'Overweight';
+      return 'Obese';
     }
   };
 
   window.NutrifyCalculator = NutrifyCalculator;
 })();
+

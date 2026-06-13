@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Nutrify — Setup Profile</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Google Fonts & Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Tailwind Configuration -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#f8f9ff",
+            "primary": "#006e2f",
+            "tertiary": "#9d4300",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#00714d",
+            "surface-variant": "#d3e4fe",
+            "on-surface-variant": "#3d4a3d",
+            "surface-container": "#e5eeff",
+            "secondary-container": "#6cf8bb",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#ffdbca",
+            "on-tertiary-fixed-variant": "#783200",
+            "tertiary-container": "#ff8e4d",
+            "inverse-primary": "#4ae176",
+            "error": "#ba1a1a",
+            "surface-bright": "#f8f9ff",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed": "#341100",
+            "secondary-fixed": "#6ffbbe",
+            "tertiary-fixed-dim": "#ffb690",
+            "primary-fixed": "#6bff8f",
+            "on-tertiary": "#ffffff",
+            "primary-fixed-dim": "#4ae176",
+            "error-container": "#ffdad6",
+            "outline-variant": "#bccbb9",
+            "on-surface": "#0b1c30",
+            "secondary-fixed-dim": "#4edea3",
+            "secondary": "#006c49",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#002109",
+            "surface-container-high": "#dce9ff",
+            "surface-container-low": "#eff4ff",
+            "surface-tint": "#006e2f",
+            "surface-container-highest": "#d3e4fe",
+            "surface-dim": "#cbdbf5",
+            "on-tertiary-container": "#6d2d00",
+            "primary-container": "#22c55e",
+            "background": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-primary-fixed-variant": "#005321",
+            "on-background": "#0b1c30",
+            "on-secondary-fixed": "#002113",
+            "on-primary-container": "#004b1e",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#005236",
+            "outline": "#6d7b6c",
+            "on-primary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "stack-md": "16px",
+            "stack-lg": "32px",
+            "unit": "8px",
+            "stack-sm": "8px",
+            "section-gap": "48px",
+            "gutter": "16px",
+            "container-margin": "24px"
+          },
+          "fontFamily": {
+            "display": ["Hanken Grotesk"],
+            "headline-md": ["Hanken Grotesk"],
+            "label-md": ["Hanken Grotesk"],
+            "title-lg": ["Hanken Grotesk"],
+            "headline-lg": ["Hanken Grotesk"],
+            "label-sm": ["Hanken Grotesk"],
+            "body-md": ["Hanken Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "headline-lg-mobile": ["Hanken Grotesk"]
+          },
+          "fontSize": {
+            "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background min-h-screen flex items-center justify-center p-4">
+
+  <div class="w-full max-w-md bg-white border border-outline-variant/30 rounded-2xl p-8 custom-shadow fade-in">
+    <div class="flex items-center gap-3 mb-2 justify-center">
+      <span class="material-symbols-outlined text-primary text-3xl">leaf</span>
+      <h2 class="text-display font-display font-extrabold text-primary text-3xl leading-none">Nutify</h2>
+    </div>
+    <p class="text-center text-body-md text-on-surface-variant mb-6">Let's set up your personalized target goals.</p>
+    
+    <form id="onboarding-form" class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-1">Gender</label>
+          <select id="gender" class="w-full border border-outline-variant/30 rounded-xl px-3 py-2 bg-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-1">Age (years)</label>
+          <input type="number" id="age" required min="10" max="120" placeholder="e.g. 28" 
+            class="w-full border border-outline-variant/30 rounded-xl px-3 py-2 bg-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-1">Height</label>
+        <div class="flex gap-2 mb-2">
+          <button type="button" class="unit-toggle-height px-3 py-1 text-xs font-semibold rounded-lg bg-primary text-white" data-unit="cm">Metric (cm)</button>
+          <button type="button" class="unit-toggle-height px-3 py-1 text-xs font-semibold rounded-lg bg-surface border border-outline-variant/30" data-unit="ft">Imperial (ft/in)</button>
+        </div>
+        <div id="height-inputs-container">
+          <!-- height inputs dynamic -->
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-1">Weight</label>
+        <div class="flex gap-2 mb-2">
+          <button type="button" class="unit-toggle-weight px-3 py-1 text-xs font-semibold rounded-lg bg-primary text-white" data-unit="kg">Metric (kg)</button>
+          <button type="button" class="unit-toggle-weight px-3 py-1 text-xs font-semibold rounded-lg bg-surface border border-outline-variant/30" data-unit="lbs">Imperial (lbs)</button>
+        </div>
+        <input type="number" id="weight" step="0.1" required min="20" placeholder="e.g. 75"
+          class="w-full border border-outline-variant/30 rounded-xl px-3 py-2 bg-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-1">Activity Level</label>
+        <select id="activity" class="w-full border border-outline-variant/30 rounded-xl px-3 py-2 bg-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+          <option value="sedentary">Sedentary (desk job)</option>
+          <option value="light">Lightly active (exercise 1-2 days/wk)</option>
+          <option value="moderate" selected>Moderately active (exercise 3-5 days/wk)</option>
+          <option value="active">Very active (heavy exercise daily)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-1">Primary Goal</label>
+        <select id="goal" class="w-full border border-outline-variant/30 rounded-xl px-3 py-2 bg-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+          <option value="lose">Lose Weight (Deficit)</option>
+          <option value="maintain" selected>Maintain Weight</option>
+          <option value="gain">Build Muscle (Surplus)</option>
+        </select>
+      </div>
+
+      <button type="submit" class="w-full bg-primary hover:bg-on-primary-container text-white py-3 rounded-xl font-bold transition-colors shadow-md flex items-center justify-center gap-2 mt-4">
+        Calculate Targets
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </button>
+    </form>
+  </div>
+
+  <script src="calculator.js"></script>
+  <script src="onboarding.js"></script>
+</body>
+</html>

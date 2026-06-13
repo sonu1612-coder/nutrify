@@ -4,8 +4,8 @@
   "description": "Personalized nutrition calculator and daily food log to track calories and macronutrients.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0d1117",
-  "theme_color": "#0d1117",
+  "background_color": "#f8f9ff",
+  "theme_color": "#006e2f",
   "orientation": "portrait-primary",
   "icons": [
     {
