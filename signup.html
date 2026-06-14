@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Nutrify - Sign Up</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Hanken Grotesk', sans-serif;
+      background-color: #f8f9ff;
+    }
+    .clinical-shadow {
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col justify-center">
+  <main class="flex-grow flex items-center justify-center p-6">
+    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden clinical-shadow border border-[#E2E8F0]">
+      <!-- Branding / Visual Side (Left) -->
+      <div class="hidden md:flex flex-col justify-between p-12 bg-[#006e2f] relative overflow-hidden text-white">
+        <!-- Abstract Decorative Pattern -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+          <svg height="100%" viewBox="0 0 400 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="200" cy="200" fill="none" r="150" stroke="white" stroke-dasharray="40 20" stroke-width="20"></circle>
+            <circle cx="200" cy="200" fill="none" r="100" stroke="white" stroke-width="10"></circle>
+          </svg>
+        </div>
+        <div class="relative z-10">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 text-white">
+            <span class="material-symbols-outlined text-[32px]">nutrition</span>
+          </div>
+          <h1 class="text-4xl font-extrabold mb-4">Nutrify</h1>
+          <p class="text-emerald-100 leading-relaxed max-w-sm">
+            Precision nutrition meets clinical freshness. Start your journey toward a healthier, more balanced life today.
+          </p>
+        </div>
+        <div class="relative z-10">
+          <div class="bg-white/10 p-6 rounded-lg backdrop-blur-md border border-white/10">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="material-symbols-outlined text-emerald-300">verified</span>
+              <span class="text-xs font-bold uppercase tracking-wider">Clinically Grounded</span>
+            </div>
+            <p class="text-sm text-emerald-200">
+              Trusted by health professionals for accurate macronutrient tracking and metabolic insights.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign Up Form Side (Right) -->
+      <div class="p-8 md:p-12 flex flex-col justify-center bg-white">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-slate-800 mb-1">Create Account</h2>
+          <p class="text-sm text-slate-500">Welcome! Please enter your details to join Nutrify.</p>
+        </div>
+        <form id="signup-form" class="space-y-4">
+          <!-- Name Field -->
+          <div class="space-y-1">
+            <label class="text-sm font-semibold text-slate-700" for="full_name">Full Name</label>
+            <div class="relative group">
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#006e2f] transition-colors">person</span>
+              <input class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#006e2f] focus:border-transparent transition-all" id="full_name" placeholder="John Doe" type="text" required>
+            </div>
+          </div>
+          <!-- Email Field -->
+          <div class="space-y-1">
+            <label class="text-sm font-semibold text-slate-700" for="email">Email Address</label>
+            <div class="relative group">
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#006e2f] transition-colors">mail</span>
+              <input class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#006e2f] focus:border-transparent transition-all" id="email" placeholder="john@example.com" type="email" required>
+            </div>
+          </div>
+          <!-- Password Field -->
+          <div class="space-y-1">
+            <label class="text-sm font-semibold text-slate-700" for="password">Password</label>
+            <div class="relative group">
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#006e2f] transition-colors">lock</span>
+              <input class="w-full pl-12 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#006e2f] focus:border-transparent transition-all" id="password" placeholder="••••••••" type="password" minlength="8" required>
+              <button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors" type="button" onclick="togglePassword()">
+                <span id="password-toggle-icon" class="material-symbols-outlined">visibility</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-400">Must be at least 8 characters long.</p>
+          </div>
+          <!-- Terms Checkbox -->
+          <div class="flex items-start gap-3 py-1">
+            <input class="mt-1 w-4 h-4 rounded border-slate-300 text-[#006e2f] focus:ring-[#006e2f]" id="terms" type="checkbox" required>
+            <label class="text-xs text-slate-500 leading-snug" for="terms">
+              I agree to the <a class="text-[#006e2f] font-bold hover:underline" href="#">Terms of Service</a> and <a class="text-[#006e2f] font-bold hover:underline" href="#">Privacy Policy</a>.
+            </label>
+          </div>
+          <!-- Primary Action -->
+          <button class="w-full bg-[#006e2f] text-white py-4 rounded-lg font-bold hover:opacity-90 active:scale-[0.98] transition-all mt-2" type="submit">
+            Create Account
+          </button>
+        </form>
+        <!-- Alternative Methods -->
+        <div class="mt-6 flex flex-col items-center gap-4">
+          <div class="w-full flex items-center gap-4">
+            <div class="h-px bg-slate-200 flex-grow"></div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest">or sign up with</span>
+            <div class="h-px bg-slate-200 flex-grow"></div>
+          </div>
+          <div class="flex gap-4 w-full">
+            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors" onclick="handleSocialSignUp()">
+              <img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKGQQOiCfmgXagStnEtp7QoRxsTryBgeT22fRlp-b6JBp0l64Acql7Mjvqo-aVD_YndFkoKVOPWXhSt04EDcUDholD2iro6WzioUztWYRsuRTJlHlpMwn767DwahssDTqX1-fqKnFQx0QaSs_FtBMC7svZwawBR7UkLHE8-yNePmfkOCHZFMaE1X7Gflsr2uYo8219X9AvxcDaUznarqqWT8Pj4ZuMNS6klblBsCBksPou6No0_8KbOcvABYZtCpOZ-pOOQ3np">
+              <span class="text-sm font-semibold text-slate-700">Google</span>
+            </button>
+            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors" onclick="handleSocialSignUp()">
+              <span class="material-symbols-outlined text-[20px]">apps</span>
+              <span class="text-sm font-semibold text-slate-700">Apple</span>
+            </button>
+          </div>
+        </div>
+        <!-- Footer Link -->
+        <div class="mt-8 text-center">
+          <p class="text-sm text-slate-500">
+            Already have an account? 
+            <a class="text-[#006e2f] font-bold hover:underline ml-1" href="login.html">Log in</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Success Toast -->
+  <div class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-4 rounded-full shadow-lg flex items-center gap-3 opacity-0 pointer-events-none transition-all duration-300" id="toast">
+    <span class="material-symbols-outlined text-emerald-400">check_circle</span>
+    <span class="text-sm font-semibold">Account created successfully! Redirecting...</span>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pwInput = document.getElementById('password');
+      const icon = document.getElementById('password-toggle-icon');
+      if (pwInput.type === 'password') {
+        pwInput.type = 'text';
+        icon.innerText = 'visibility_off';
+      } else {
+        pwInput.type = 'password';
+        icon.innerText = 'visibility';
+      }
+    }
+
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('full_name').value;
+      const email = document.getElementById('email').value;
+
+      localStorage.setItem('nutrify_account', JSON.stringify({ name, email }));
+      showToastAndRedirect();
+    });
+
+    function handleSocialSignUp() {
+      localStorage.setItem('nutrify_account', JSON.stringify({ name: 'Social User', email: 'social_user@nutrify.com' }));
+      showToastAndRedirect();
+    }
+
+    function showToastAndRedirect() {
+      const toast = document.getElementById('toast');
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-[-10px]');
+      
+      setTimeout(() => {
+        window.location.replace('onboarding.html');
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

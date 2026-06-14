@@ -54,8 +54,8 @@
 <body class="h-screen w-screen overflow-hidden bg-slate-950 flex flex-col items-center justify-center relative text-white">
 
   <!-- Background Video -->
-  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
-    <source src="https://assets.mixkit.co/videos/preview/mixkit-healthy-vegetables-falling-into-a-basket-41566-large.mp4" type="video/mp4">
+  <video id="bg-video" autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+    <source src="intro.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
@@ -104,7 +104,51 @@
     <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" type="audio/wav">
   </audio>
 
+  <!-- Audio control indicator -->
+  <button id="audio-toggle" class="absolute top-6 right-6 z-30 p-3 bg-black/40 hover:bg-black/60 border border-white/10 rounded-full text-white/80 hover:text-white transition-all duration-300 flex items-center justify-center backdrop-blur-sm">
+    <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+      <path id="volume-waves" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+    </svg>
+  </button>
+
   <script>
+    // Immediate redirect if profile already exists on this device
+    if (localStorage.getItem('nutrify_profile')) {
+      window.location.replace('dashboard.html');
+    }
+
+    const video = document.getElementById('bg-video');
+    const audioToggle = document.getElementById('audio-toggle');
+    const volumeIcon = document.getElementById('volume-icon');
+    const volumeWaves = document.getElementById('volume-waves');
+
+    // Update volume icon UI
+    function updateVolumeIcon() {
+      if (video.muted) {
+        // Muted state: show X next to speaker
+        volumeWaves.setAttribute('d', 'M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2');
+      } else {
+        // Unmuted state: show sound waves
+        volumeWaves.setAttribute('d', 'M15.536 8.464a5 5 0 010 7.072M17.657 6.343a8 8 0 010 11.314');
+      }
+    }
+
+    // Toggle mute on button click
+    audioToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      video.muted = !video.muted;
+      updateVolumeIcon();
+    });
+
+    // Unmute automatically on first click anywhere on document
+    document.addEventListener('click', () => {
+      if (video.muted) {
+        video.muted = false;
+        updateVolumeIcon();
+      }
+    }, { once: true });
+
     document.getElementById('enter-btn').addEventListener('click', () => {
       const btn = document.getElementById('enter-btn');
       const chime = document.getElementById('intro-chime');
@@ -126,7 +170,7 @@
         if (profile) {
           window.location.href = 'dashboard.html';
         } else {
-          window.location.href = 'onboarding.html';
+          window.location.href = 'login.html';
         }
       }, 700);
     });
