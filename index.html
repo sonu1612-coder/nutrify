@@ -55,9 +55,14 @@
   </style>
 </head>
 <body class="h-screen w-screen overflow-hidden bg-black text-white relative">
+  <!-- Start Overlay -->
+  <div id="start-overlay" class="absolute inset-0 flex items-center justify-center bg-black/80 z-30 transition-opacity duration-500">
+    <button id="start-btn" class="px-8 py-4 text-xl font-bold text-white border-2 border-emerald-500 rounded-full hover:bg-emerald-500/20 transition-all shadow-[0_0_20px_rgba(0,168,107,0.3)]">Tap to Start</button>
+  </div>
+
   <!-- Front Video Section (Full Screen) -->
   <div id="video-container" class="absolute inset-0 flex items-center justify-center bg-black z-20 transition-opacity duration-1000">
-    <video id="front-video" autoplay muted playsinline class="w-full h-full object-cover">
+    <video id="front-video" playsinline class="w-full h-full object-cover">
       Your browser does not support the video tag.
     </video>
     <script>
@@ -69,12 +74,6 @@
         frontVideo.src = 'intro-pc.mp4';
       }
       frontVideo.load();
-      let playPromise = frontVideo.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log("Autoplay prevented. Click anywhere to skip.");
-        });
-      }
     </script>
   </div>
 
@@ -116,9 +115,25 @@
     // When video ends, show options
     video.addEventListener('ended', showOptions);
 
-    // Skip video on click
+    // Start logic
+    const startOverlay = document.getElementById('start-overlay');
+    const startBtn = document.getElementById('start-btn');
+    let isStarted = false;
+
+    startBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      startOverlay.style.opacity = '0';
+      setTimeout(() => {
+        startOverlay.style.display = 'none';
+      }, 500);
+      video.play().catch(err => console.log('Playback error:', err));
+      // allow a short delay so this click doesn't trigger the document listener
+      setTimeout(() => { isStarted = true; }, 100);
+    });
+
+    // Skip video on click after it has started
     document.addEventListener('click', () => {
-      if (videoContainer.style.opacity !== '0') {
+      if (isStarted && videoContainer.style.opacity !== '0') {
         showOptions();
       }
     });
