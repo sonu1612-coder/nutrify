@@ -58,13 +58,16 @@ if (window.supabase) {
     }
   };
 
-  // Auto-redirect authenticated users away from landing/login/signup pages
+  // Auto-redirect authenticated or local-bypassed users away from landing/login/signup pages
   (async function checkSessionAndRedirect() {
     try {
       const { data: { session } } = await window.supabaseClient.auth.getSession();
-      if (session) {
+      const localOfflineAccount = localStorage.getItem('nutrify_account');
+      
+      if (session || localOfflineAccount) {
         let profile = localStorage.getItem('nutrify_profile');
-        if (!profile) {
+        if (!profile && session) {
+          // Only attempt cloud sync if there's a real session
           await window.syncWithCloud();
           profile = localStorage.getItem('nutrify_profile');
         }
