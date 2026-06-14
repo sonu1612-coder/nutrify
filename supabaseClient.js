@@ -58,6 +58,33 @@ if (window.supabase) {
     }
   };
 
+  // Auto-redirect authenticated users away from landing/login/signup pages
+  (async function checkSessionAndRedirect() {
+    try {
+      const { data: { session } } = await window.supabaseClient.auth.getSession();
+      if (session) {
+        let profile = localStorage.getItem('nutrify_profile');
+        if (!profile) {
+          await window.syncWithCloud();
+          profile = localStorage.getItem('nutrify_profile');
+        }
+
+        const path = window.location.pathname;
+        const page = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+        
+        if (page === 'index.html' || page === 'login.html' || page === 'signup.html') {
+          if (profile) {
+            window.location.replace('dashboard.html');
+          } else {
+            window.location.replace('onboarding.html');
+          }
+        }
+      }
+    } catch (e) {
+      console.error("Session check/redirect failed:", e);
+    }
+  })();
+
 } else {
   console.error("Supabase library not loaded. Make sure the CDN script is included.");
 }

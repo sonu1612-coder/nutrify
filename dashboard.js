@@ -57,56 +57,56 @@
       <div class="lg:col-span-8 space-y-gutter">
         
         <!-- Main Circular Progress Card -->
-        <section class="glass-card hover:glow-emerald transition-all rounded-xl p-6 shadow-sm border border-outline-variant/20 relative overflow-hidden custom-shadow">
+        <section class="glossy-green-card transition-all rounded-xl p-6 relative overflow-hidden custom-shadow">
           <div class="flex flex-col md:flex-row items-center gap-8">
             <!-- Progress Circle -->
             <div class="relative w-44 h-44 md:w-52 md:h-52 flex-shrink-0">
               <svg class="w-full h-full transform -rotate-90">
-                <circle class="text-surface-container" cx="50%" cy="50%" fill="transparent" r="41%" stroke="currentColor" stroke-width="12"></circle>
-                <circle class="text-primary transition-all duration-1000 ease-out" cx="50%" cy="50%" fill="transparent" r="41%" stroke="currentColor" stroke-dasharray="283" stroke-dashoffset="${dashoffset}" stroke-linecap="round" stroke-width="12"></circle>
+                <circle class="text-white/20" cx="50%" cy="50%" fill="transparent" r="41%" stroke="currentColor" stroke-width="12"></circle>
+                <circle class="text-white transition-all duration-1000 ease-out drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" cx="50%" cy="50%" fill="transparent" r="41%" stroke="currentColor" stroke-dasharray="283" stroke-dashoffset="${dashoffset}" stroke-linecap="round" stroke-width="12"></circle>
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <span class="text-4xl font-extrabold tracking-tight">${remainingCals.toLocaleString()}</span>
-                <span class="text-label-sm text-on-surface-variant uppercase tracking-wider">kcal left</span>
+                <span class="text-4xl font-extrabold tracking-tight text-white drop-shadow-md">${remainingCals.toLocaleString()}</span>
+                <span class="text-label-sm text-white/80 uppercase tracking-wider">kcal left</span>
               </div>
             </div>
 
             <!-- Macro Details -->
             <div class="flex-1 w-full space-y-4">
               <div>
-                <h3 class="text-headline-md font-display font-bold text-on-surface">Daily Overview</h3>
-                <p class="text-body-md text-on-surface-variant">You have consumed ${Math.round(progressPct)}% of your target daily caloric intake.</p>
+                <h3 class="text-headline-md font-display font-bold text-white drop-shadow-sm">Daily Overview</h3>
+                <p class="text-body-md text-white/80">You have consumed <span class="font-bold text-white">${Math.round(progressPct)}%</span> of your target daily caloric intake.</p>
               </div>
               
               <div class="grid grid-cols-1 gap-3 pt-2">
                 <!-- Protein -->
                 <div class="space-y-1">
                   <div class="flex justify-between items-end text-xs">
-                    <span class="font-bold text-on-surface">Protein</span>
-                    <span class="text-on-surface-variant font-medium">${Math.round(consumedMacros.protein)}g / ${profile.targets.macros.protein}g</span>
+                    <span class="font-bold text-white drop-shadow-sm">Protein</span>
+                    <span class="text-white/90 font-medium">${Math.round(consumedMacros.protein)}g / ${profile.targets.macros.protein}g</span>
                   </div>
-                  <div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                    <div class="h-full bg-primary macro-progress" style="width: ${pPct}%"></div>
+                  <div class="h-2 w-full bg-white/20 rounded-full overflow-hidden shadow-inner">
+                    <div class="h-full progress-bar-glossy macro-progress" style="width: ${pPct}%"></div>
                   </div>
                 </div>
                 <!-- Carbs -->
                 <div class="space-y-1">
                   <div class="flex justify-between items-end text-xs">
-                    <span class="font-bold text-on-surface">Carbohydrates</span>
-                    <span class="text-on-surface-variant font-medium">${Math.round(consumedMacros.carbs)}g / ${profile.targets.macros.carbs}g</span>
+                    <span class="font-bold text-white drop-shadow-sm">Carbohydrates</span>
+                    <span class="text-white/90 font-medium">${Math.round(consumedMacros.carbs)}g / ${profile.targets.macros.carbs}g</span>
                   </div>
-                  <div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                    <div class="h-full bg-[forestgreen] macro-progress" style="width: ${cPct}%"></div>
+                  <div class="h-2 w-full bg-white/20 rounded-full overflow-hidden shadow-inner">
+                    <div class="h-full progress-bar-glossy macro-progress" style="width: ${cPct}%"></div>
                   </div>
                 </div>
                 <!-- Fats -->
                 <div class="space-y-1">
                   <div class="flex justify-between items-end text-xs">
-                    <span class="font-bold text-on-surface">Fats</span>
-                    <span class="text-on-surface-variant font-medium">${Math.round(consumedMacros.fat)}g / ${profile.targets.macros.fat}g</span>
+                    <span class="font-bold text-white drop-shadow-sm">Fats</span>
+                    <span class="text-white/90 font-medium">${Math.round(consumedMacros.fat)}g / ${profile.targets.macros.fat}g</span>
                   </div>
-                  <div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                    <div class="h-full bg-tertiary-container macro-progress" style="width: ${fPct}%"></div>
+                  <div class="h-2 w-full bg-white/20 rounded-full overflow-hidden shadow-inner">
+                    <div class="h-full progress-bar-glossy macro-progress" style="width: ${fPct}%"></div>
                   </div>
                 </div>
               </div>

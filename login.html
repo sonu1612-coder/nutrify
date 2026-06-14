@@ -33,7 +33,7 @@
         <label class="text-sm font-semibold text-white" for="email">Email Address</label>
         <div class="relative group">
           <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">mail</span>
-          <input class="w-full rounded-xl border border-primary/30 bg-black/50 p-3 pl-10 text-sm text-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-gray-500" id="email" placeholder="name@company.com" type="email" required>
+          <input class="w-full rounded-xl border border-primary/30 bg-black/50 p-3 pl-10 text-sm text-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-gray-500" id="email" name="email" autocomplete="email" placeholder="name@company.com" type="email" required>
         </div>
       </div>
       <!-- Password Field -->
@@ -44,7 +44,7 @@
         </div>
         <div class="relative group">
           <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">lock</span>
-          <input class="w-full rounded-xl border border-primary/30 bg-black/50 p-3 pl-10 text-sm text-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-gray-500" id="password" placeholder="••••••••" type="password" required>
+          <input class="w-full rounded-xl border border-primary/30 bg-black/50 p-3 pl-10 text-sm text-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-gray-500" id="password" name="password" autocomplete="current-password" placeholder="••••••••" type="password" required>
           <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors" type="button" onclick="togglePassword()">
             <span id="password-toggle-icon" class="material-symbols-outlined">visibility</span>
           </button>
