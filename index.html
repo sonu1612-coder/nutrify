@@ -57,7 +57,7 @@
 <body class="h-screen w-screen overflow-hidden bg-black text-white relative">
   <!-- Front Video Section (Full Screen) -->
   <div id="video-container" class="absolute inset-0 flex items-center justify-center bg-black z-20 transition-opacity duration-1000">
-    <video id="front-video" autoplay playsinline class="w-full h-full object-cover">
+    <video id="front-video" autoplay muted playsinline class="w-full h-full object-cover">
       Your browser does not support the video tag.
     </video>
     <script>
@@ -67,6 +67,13 @@
         frontVideo.src = 'intro-mobile.mp4';
       } else {
         frontVideo.src = 'intro-pc.mp4';
+      }
+      frontVideo.load();
+      let playPromise = frontVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log("Autoplay prevented. Click anywhere to skip.");
+        });
       }
     </script>
   </div>
