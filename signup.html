@@ -9,6 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="theme.js"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <style>
     }
   </style>
@@ -142,18 +145,40 @@
       }
     }
 
-    document.getElementById('signup-form').addEventListener('submit', (e) => {
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('full_name').value;
       const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerText;
+      submitBtn.innerText = 'Creating Account...';
+      submitBtn.disabled = true;
 
-      localStorage.setItem('nutrify_account', JSON.stringify({ name, email }));
-      showToastAndRedirect();
+      const { data, error } = await window.supabaseClient.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: {
+            full_name: name
+          }
+        }
+      });
+
+      submitBtn.innerText = originalText;
+      submitBtn.disabled = false;
+
+      if (error) {
+        alert("Error creating account: " + error.message);
+      } else {
+        localStorage.setItem('nutrify_account', JSON.stringify({ name, email }));
+        showToastAndRedirect();
+      }
     });
 
     function handleSocialSignUp() {
-      localStorage.setItem('nutrify_account', JSON.stringify({ name: 'Social User', email: 'social_user@nutrify.com' }));
-      showToastAndRedirect();
+      alert("Social signup is not configured yet with Supabase providers.");
     }
 
     function showToastAndRedirect() {

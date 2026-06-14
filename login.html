@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="theme.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
   <style>
     }
   </style>
@@ -97,20 +99,39 @@
     }
 
     // Handle Login submission
-    document.getElementById('login-form').addEventListener('submit', (e) => {
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
       
-      // Save mock account data
-      localStorage.setItem('nutrify_account', JSON.stringify({ email: email, name: email.split('@')[0] }));
-      
-      // Route appropriately
-      proceedAfterAuth();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerText;
+      submitBtn.innerText = 'Logging in...';
+      submitBtn.disabled = true;
+
+      const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      submitBtn.innerText = originalText;
+      submitBtn.disabled = false;
+
+      if (error) {
+        alert("Error logging in: " + error.message);
+      } else {
+        // Save minimal local marker for backwards compatibility on redirects
+        localStorage.setItem('nutrify_account', JSON.stringify({ email: data.user.email, name: data.user.user_metadata?.full_name }));
+        
+        submitBtn.innerText = 'Syncing Profile...';
+        await window.syncWithCloud();
+        
+        proceedAfterAuth();
+      }
     });
 
     function handleSocialLogin() {
-      localStorage.setItem('nutrify_account', JSON.stringify({ email: 'social_user@nutrify.com', name: 'Social User' }));
-      proceedAfterAuth();
+      alert("Social login is not configured yet with Supabase providers.");
     }
 
     function proceedAfterAuth() {
