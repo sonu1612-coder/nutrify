@@ -78,7 +78,7 @@
             </div>
             <div class="flex h-2 rounded-full overflow-hidden">
               <div class="bg-primary" style="width: 30%"></div>
-              <div class="bg-emerald-500" style="width: 50%"></div>
+              <div class="bg-[forestgreen]" style="width: 50%"></div>
               <div class="bg-tertiary-container" style="width: 20%"></div>
             </div>
           </div>

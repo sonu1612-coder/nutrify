@@ -51,37 +51,34 @@
     }
   </style>
 </head>
-<body class="h-screen w-screen overflow-hidden bg-black flex flex-col items-center justify-center relative text-white">
+<body class="h-screen w-screen overflow-hidden bg-black flex flex-col relative text-white">
 
-  <!-- Front Video -->
-  <video id="front-video" autoplay playsinline class="absolute inset-0 w-full h-full object-cover z-50">
-    <source src="intro.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <!-- Front Video Section (Top) -->
+  <div class="flex-grow relative overflow-hidden flex items-center justify-center bg-black">
+    <video id="front-video" autoplay playsinline class="w-full h-full object-cover">
+      <source src="intro.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
-  <!-- Fallback Content Container (behind video) -->
-  <div id="splash-content" class="relative z-20 flex flex-col items-center justify-center gap-8 h-full py-16 px-6 text-center select-none">
-    <div class="flex flex-col items-center gap-6">
-      <div class="w-24 h-24 bg-white rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(16,185,129,0.4)] border border-white/20 flex items-center justify-center">
-        <img src="logo.png" alt="Nutrify Logo" class="w-full h-full object-cover">
-      </div>
-      <div class="space-y-2">
-        <h1 class="text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-emerald-300">
-          Nutrify
-        </h1>
-        <p class="text-slate-300 text-sm max-w-xs leading-relaxed">
-          Know what you eat. track calories, log meals, and consult your smart AI guide.
-        </p>
-      </div>
+  <!-- Options Container (Bottom) -->
+  <div class="w-full bg-black flex flex-col items-center gap-6 py-8 px-6 z-10 border-t border-primary/20 shadow-[0_-10px_30px_rgba(0,168,107,0.15)] rounded-t-[2rem]">
+    <div class="flex flex-col items-center gap-2 text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-btn-gradient drop-shadow-lg">
+        Nutrify
+      </h1>
+      <p class="text-gray-400 text-sm max-w-xs leading-relaxed font-light">
+        Know what you eat. Track calories, log meals, and consult your smart AI guide.
+      </p>
+    </div>
+    
+    <div class="flex gap-4 w-full max-w-md">
+      <a href="login.html" class="flex-1 py-4 text-center rounded-xl bg-gray-900 text-white font-bold hover:bg-gray-800 transition-colors border border-primary/30">Login</a>
+      <a href="signup.html" class="flex-1 py-4 text-center rounded-xl bg-btn-gradient text-black font-bold hover:glow-emerald transition-all shadow-[0_0_20px_rgba(0,168,107,0.3)]">Get Started</a>
     </div>
   </div>
 
   <script>
-    // Immediate redirect if profile already exists on this device
-    if (localStorage.getItem('nutrify_profile')) {
-      window.location.replace('dashboard.html');
-    }
-
     const video = document.getElementById('front-video');
 
     // Autoplay with sound might be blocked by browsers until user interacts.
@@ -89,16 +86,6 @@
     document.addEventListener('click', () => {
       if (video.paused) {
         video.play().catch(e => console.log('Audio play blocked: ', e));
-      }
-    });
-
-    // When the intro video ends, move to the next screen.
-    video.addEventListener('ended', () => {
-      const profile = localStorage.getItem('nutrify_profile');
-      if (profile) {
-        window.location.href = 'dashboard.html';
-      } else {
-        window.location.href = 'login.html';
       }
     });
   </script>

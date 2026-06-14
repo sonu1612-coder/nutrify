@@ -91,7 +91,7 @@
         <!-- Meal Categories Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Breakfast -->
-          <article class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
+          <article class="glass-card hover:glow-emerald transition-all rounded-xl p-5 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center mb-4">
                 <div class="flex items-center gap-2.5">
@@ -112,7 +112,7 @@
           </article>
 
           <!-- Lunch -->
-          <article class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
+          <article class="glass-card hover:glow-emerald transition-all rounded-xl p-5 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center mb-4">
                 <div class="flex items-center gap-2.5">
@@ -133,7 +133,7 @@
           </article>
 
           <!-- Dinner -->
-          <article class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
+          <article class="glass-card hover:glow-emerald transition-all rounded-xl p-5 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center mb-4">
                 <div class="flex items-center gap-2.5">
@@ -154,7 +154,7 @@
           </article>
 
           <!-- Snacks -->
-          <article class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
+          <article class="glass-card hover:glow-emerald transition-all rounded-xl p-5 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center mb-4">
                 <div class="flex items-center gap-2.5">

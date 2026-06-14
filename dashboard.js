@@ -57,7 +57,7 @@
       <div class="lg:col-span-8 space-y-gutter">
         
         <!-- Main Circular Progress Card -->
-        <section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/20 relative overflow-hidden custom-shadow">
+        <section class="glass-card hover:glow-emerald transition-all rounded-xl p-6 shadow-sm border border-outline-variant/20 relative overflow-hidden custom-shadow">
           <div class="flex flex-col md:flex-row items-center gap-8">
             <!-- Progress Circle -->
             <div class="relative w-44 h-44 md:w-52 md:h-52 flex-shrink-0">
@@ -96,7 +96,7 @@
                     <span class="text-on-surface-variant font-medium">${Math.round(consumedMacros.carbs)}g / ${profile.targets.macros.carbs}g</span>
                   </div>
                   <div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                    <div class="h-full bg-emerald-500 macro-progress" style="width: ${cPct}%"></div>
+                    <div class="h-full bg-[forestgreen] macro-progress" style="width: ${cPct}%"></div>
                   </div>
                 </div>
                 <!-- Fats -->
@@ -115,7 +115,7 @@
         </section>
 
         <!-- Recent Log -->
-        <section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/20 custom-shadow">
+        <section class="glass-card hover:glow-emerald transition-all rounded-xl p-6 shadow-sm border border-outline-variant/20 custom-shadow">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-title-lg font-display font-semibold">Recent Entry</h3>
             <a href="meal-log.html" class="text-primary text-label-md font-bold hover:underline transition-all">Meal Logs</a>

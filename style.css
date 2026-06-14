@@ -4,8 +4,8 @@
 
 body {
   font-family: 'Hanken Grotesk', sans-serif;
-  background-color: #041009;
-  color: #e0f2e9;
+  background-color: #F8FAF9;
+  color: #0B0B0B;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -76,6 +76,14 @@ body {
   border: 1px solid rgba(241, 245, 249, 0.8);
 }
 
+.glass-card-dark {
+  background: rgba(11, 11, 11, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 212, 160, 0.2);
+  color: #FFFFFF;
+}
+
 /* Animations */
 .fade-in {
   animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
@@ -126,11 +134,11 @@ circle {
   display: none !important;
 }
 
-/* Gradient Border for Dark Forest Green Theme */
+/* Gradient Border for Dark Theme */
 .gradient-border {
   position: relative;
   border-radius: 2rem;
-  background: #081a11;
+  background: #0B0B0B;
   background-clip: padding-box;
   border: 1.5px solid transparent;
 }
@@ -141,7 +149,7 @@ circle {
   inset: -1.5px;
   border-radius: 2rem;
   z-index: -1;
-  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(46,204,113,0.6) 50%, rgba(4,16,9,1) 100%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(0,212,160,0.6) 50%, rgba(11,11,11,1) 100%);
   background-size: 200% 200%;
   animation: gradientShift 5s ease infinite;
 }
@@ -150,4 +158,30 @@ circle {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* New Premium Classes */
+.bg-hero-gradient {
+  background: linear-gradient(135deg, #0B0B0B 0%, #006B4F 35%, #00A86B 70%, #00D4A0 100%);
+}
+
+.bg-btn-gradient {
+  background: linear-gradient(135deg, #00A86B, #00D4A0);
+  transition: box-shadow 0.3s ease;
+  color: #0B0B0B;
+}
+
+.bg-btn-gradient:hover {
+  box-shadow: 0 0 30px rgba(0, 212, 160, 0.4);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 30px rgba(0, 212, 160, 0.4);
+}
+
+.bg-wave-pattern {
+  background-image: 
+    radial-gradient(circle at 100% 50%, transparent 20%, rgba(0, 212, 160, 0.05) 21%, rgba(0, 212, 160, 0.05) 34%, transparent 35%, transparent), 
+    radial-gradient(circle at 0% 50%, transparent 20%, rgba(0, 168, 107, 0.05) 21%, rgba(0, 168, 107, 0.05) 34%, transparent 35%, transparent);
+  background-size: 100px 100px;
 }

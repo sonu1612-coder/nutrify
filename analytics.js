@@ -156,7 +156,7 @@
           </div>
           
           <div class="h-2.5 w-full bg-slate-200 rounded-full mt-4 relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-r from-blue-400 via-green-400 to-red-400"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-400 via-[forestgreen] to-red-400"></div>
             ${profile.bmi ? `
               <div class="absolute top-0 w-1 h-full bg-white shadow" style="left: ${Math.min(Math.max(((profile.bmi - 15) / 20) * 100, 0), 100)}%"></div>
             ` : ''}

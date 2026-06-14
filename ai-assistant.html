@@ -22,19 +22,19 @@
 <body class="bg-background text-on-background min-h-screen flex flex-col pb-20 md:pb-0">
 
   <!-- Header -->
-  <header class="bg-surface sticky top-0 z-40 w-full border-b border-outline-variant/10">
+  <header class="bg-black sticky top-0 z-40 w-full border-b border-primary/30 shadow-[0_4px_30px_rgba(0,168,107,0.15)] text-white">
     <div class="flex justify-between items-center px-container-margin py-stack-sm w-full max-w-7xl mx-auto">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl overflow-hidden bg-white border border-outline-variant/20 flex-shrink-0 flex items-center justify-center">
-          <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
+        <div class="w-10 h-10 rounded-xl overflow-hidden bg-black border border-primary/50 glow-emerald flex-shrink-0 flex items-center justify-center">
+          <img src="logo.png" alt="Logo" class="w-full h-full object-cover mix-blend-lighten">
         </div>
         <h1 class="text-headline-md font-display font-extrabold text-primary">Nutrify</h1>
       </div>
       <div class="flex items-center gap-2">
-        <button id="noti-btn" class="material-symbols-outlined text-primary hover:bg-primary/5 p-2 rounded-full transition-colors active:scale-95">
+        <button id="noti-btn" class="material-symbols-outlined text-primary hover:text-white p-2 rounded-full transition-colors active:scale-95">
           notifications
         </button>
-        <a href="profile.html" class="w-9 h-9 rounded-full overflow-hidden bg-surface-variant flex-shrink-0 border border-primary/20 active:scale-95 transition-transform">
+        <a href="profile.html" class="w-9 h-9 rounded-full overflow-hidden bg-black flex-shrink-0 border border-primary/50 glow-emerald active:scale-95 transition-transform">
           <img id="header-avatar" alt="User Avatar" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200">
         </a>
       </div>
@@ -43,25 +43,25 @@
 
   <div class="flex-grow w-full max-w-7xl mx-auto flex">
     <!-- Desktop Side Navigation Bar (AI Active) -->
-    <nav class="hidden md:flex flex-col gap-6 bg-surface-container-lowest p-6 border-r border-outline-variant/10 w-64 flex-shrink-0 min-h-[calc(100vh-64px)]">
+    <nav class="hidden md:flex flex-col gap-6 bg-black p-6 w-64 flex-shrink-0 min-h-[calc(100vh-64px)] border-r border-primary/30 mt-2 text-white shadow-[4px_0_30px_rgba(0,168,107,0.1)]">
       <div class="flex flex-col gap-2">
-        <a href="dashboard.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-on-surface-variant hover:bg-surface-variant/20 hover:text-primary transition-all duration-150">
+        <a href="dashboard.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
           <span class="material-symbols-outlined">dashboard</span>
           <span class="font-semibold text-body-md">Dashboard</span>
         </a>
-        <a href="meal-log.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-on-surface-variant hover:bg-surface-variant/20 hover:text-primary transition-all duration-150">
+        <a href="meal-log.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
           <span class="material-symbols-outlined">add_circle</span>
           <span class="font-semibold text-body-md">Meal Log</span>
         </a>
-        <a href="ai-assistant.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-primary bg-secondary-container/20 md:bg-secondary-container/30 transition-all duration-150">
+        <a href="ai-assistant.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left bg-btn-gradient text-black glow-emerald font-bold transition-all duration-150">
           <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">chat</span>
-          <span class="font-semibold text-body-md">Nutify Guide</span>
+          <span class="text-body-md">Nutify Guide</span>
         </a>
-        <a href="analytics.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-on-surface-variant hover:bg-surface-variant/20 hover:text-primary transition-all duration-150">
+        <a href="analytics.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
           <span class="material-symbols-outlined">monitoring</span>
           <span class="font-semibold text-body-md">Analytics</span>
         </a>
-        <a href="profile.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-on-surface-variant hover:bg-surface-variant/20 hover:text-primary transition-all duration-150">
+        <a href="profile.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
           <span class="material-symbols-outlined">person</span>
           <span class="font-semibold text-body-md">Profile & Goals</span>
         </a>
@@ -121,24 +121,24 @@
   </div>
 
   <!-- Mobile Bottom Navigation Bar (AI Active) -->
-  <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-surface-container-lowest border-t border-outline-variant/10 shadow-lg px-2 pb-4 pt-2 flex justify-around items-center rounded-t-2xl">
-    <a href="dashboard.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary px-3 py-1 transition-all">
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-black border-t border-primary/30 shadow-[0_-4px_30px_rgba(0,168,107,0.15)] px-2 pb-4 pt-2 flex justify-around items-center rounded-t-3xl text-white">
+    <a href="dashboard.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary px-3 py-1 transition-all">
       <span class="material-symbols-outlined">dashboard</span>
       <span class="text-xs mt-0.5">Dashboard</span>
     </a>
-    <a href="meal-log.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary px-3 py-1 transition-all">
+    <a href="meal-log.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary px-3 py-1 transition-all">
       <span class="material-symbols-outlined">add_circle</span>
       <span class="text-xs mt-0.5">Meal Log</span>
     </a>
-    <a href="ai-assistant.html" class="flex flex-col items-center justify-center text-primary bg-secondary-container/20 px-3 py-1 rounded-full transition-all">
+    <a href="ai-assistant.html" class="flex flex-col items-center justify-center text-black bg-btn-gradient px-4 py-1.5 rounded-full glow-emerald transition-all">
       <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">chat</span>
-      <span class="text-xs mt-0.5">Guide</span>
+      <span class="text-xs mt-0.5 font-bold">Guide</span>
     </a>
-    <a href="analytics.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary px-3 py-1 transition-all">
+    <a href="analytics.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary px-3 py-1 transition-all">
       <span class="material-symbols-outlined">monitoring</span>
       <span class="text-xs mt-0.5">Analytics</span>
     </a>
-    <a href="profile.html" class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary px-3 py-1 transition-all">
+    <a href="profile.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary px-3 py-1 transition-all">
       <span class="material-symbols-outlined">person</span>
       <span class="text-xs mt-0.5">Profile</span>
     </a>
