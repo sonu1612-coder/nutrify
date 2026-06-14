@@ -51,33 +51,20 @@
     }
   </style>
 </head>
-<body class="h-screen w-screen overflow-hidden bg-slate-950 flex flex-col items-center justify-center relative text-white">
+<body class="h-screen w-screen overflow-hidden bg-black flex flex-col items-center justify-center relative text-white">
 
-  <!-- Background Video -->
-  <video id="bg-video" autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+  <!-- Front Video -->
+  <video id="front-video" autoplay playsinline class="absolute inset-0 w-full h-full object-cover z-50">
     <source src="intro.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
-  <!-- Premium Dark Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-emerald-950/75 to-black/90 z-10"></div>
-
-  <!-- Content Container -->
-  <div id="splash-content" class="relative z-20 flex flex-col items-center justify-between h-full py-16 px-6 text-center select-none transition-all duration-700">
-    
-    <!-- Top Header -->
-    <div class="space-y-1">
-      <span class="text-xs tracking-[0.2em] text-emerald-400 font-bold uppercase">Welcome to Healthier Living</span>
-      <div class="w-12 h-[2px] bg-emerald-500 mx-auto"></div>
-    </div>
-
-    <!-- Center Brand & Logo -->
+  <!-- Fallback Content Container (behind video) -->
+  <div id="splash-content" class="relative z-20 flex flex-col items-center justify-center gap-8 h-full py-16 px-6 text-center select-none">
     <div class="flex flex-col items-center gap-6">
-      <!-- Logo Container -->
-      <div id="logo-container" class="logo-pulse w-24 h-24 bg-white rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(16,185,129,0.4)] border border-white/20 transition-all duration-700 flex items-center justify-center">
+      <div class="w-24 h-24 bg-white rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(16,185,129,0.4)] border border-white/20 flex items-center justify-center">
         <img src="logo.png" alt="Nutrify Logo" class="w-full h-full object-cover">
       </div>
-
       <div class="space-y-2">
         <h1 class="text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-emerald-300">
           Nutrify
@@ -87,30 +74,7 @@
         </p>
       </div>
     </div>
-
-    <!-- Enter App Button -->
-    <div class="w-full max-w-xs">
-      <button id="enter-btn" class="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl font-bold tracking-wide shadow-[0_8px_30px_rgb(16,185,129,0.3)] hover:brightness-110 active:scale-95 transition-all duration-150 relative overflow-hidden group">
-        <span class="relative z-10">Start Your Journey</span>
-        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-      </button>
-      <p class="text-[10px] text-slate-400/70 mt-3">Tap to begin & play intro sound</p>
-    </div>
-
   </div>
-
-  <!-- Audio Chime -->
-  <audio id="intro-chime" preload="auto">
-    <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" type="audio/wav">
-  </audio>
-
-  <!-- Audio control indicator -->
-  <button id="audio-toggle" class="absolute top-6 right-6 z-30 p-3 bg-black/40 hover:bg-black/60 border border-white/10 rounded-full text-white/80 hover:text-white transition-all duration-300 flex items-center justify-center backdrop-blur-sm">
-    <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-      <path id="volume-waves" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-    </svg>
-  </button>
 
   <script>
     // Immediate redirect if profile already exists on this device
@@ -118,61 +82,24 @@
       window.location.replace('dashboard.html');
     }
 
-    const video = document.getElementById('bg-video');
-    const audioToggle = document.getElementById('audio-toggle');
-    const volumeIcon = document.getElementById('volume-icon');
-    const volumeWaves = document.getElementById('volume-waves');
+    const video = document.getElementById('front-video');
 
-    // Update volume icon UI
-    function updateVolumeIcon() {
-      if (video.muted) {
-        // Muted state: show X next to speaker
-        volumeWaves.setAttribute('d', 'M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2');
-      } else {
-        // Unmuted state: show sound waves
-        volumeWaves.setAttribute('d', 'M15.536 8.464a5 5 0 010 7.072M17.657 6.343a8 8 0 010 11.314');
+    // Autoplay with sound might be blocked by browsers until user interacts.
+    // If user clicks anywhere, try to play if it was paused.
+    document.addEventListener('click', () => {
+      if (video.paused) {
+        video.play().catch(e => console.log('Audio play blocked: ', e));
       }
-    }
-
-    // Toggle mute on button click
-    audioToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      video.muted = !video.muted;
-      updateVolumeIcon();
     });
 
-    // Unmute automatically on first click anywhere on document
-    document.addEventListener('click', () => {
-      if (video.muted) {
-        video.muted = false;
-        updateVolumeIcon();
+    // When the intro video ends, move to the next screen.
+    video.addEventListener('ended', () => {
+      const profile = localStorage.getItem('nutrify_profile');
+      if (profile) {
+        window.location.href = 'dashboard.html';
+      } else {
+        window.location.href = 'login.html';
       }
-    }, { once: true });
-
-    document.getElementById('enter-btn').addEventListener('click', () => {
-      const btn = document.getElementById('enter-btn');
-      const chime = document.getElementById('intro-chime');
-      const logo = document.getElementById('logo-container');
-      const content = document.getElementById('splash-content');
-
-      // 1. Play intro chime sound
-      chime.volume = 0.5;
-      chime.play().catch(e => console.log("Audio play blocked: ", e));
-
-      // 2. Perform transition animations
-      logo.classList.remove('logo-pulse');
-      logo.classList.add('logo-explode');
-      content.classList.add('fade-out');
-
-      // 3. Redirect after transition completes
-      setTimeout(() => {
-        const profile = localStorage.getItem('nutrify_profile');
-        if (profile) {
-          window.location.href = 'dashboard.html';
-        } else {
-          window.location.href = 'login.html';
-        }
-      }, 700);
     });
   </script>
 </body>

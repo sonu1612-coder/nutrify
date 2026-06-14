@@ -4,8 +4,8 @@
 
 body {
   font-family: 'Hanken Grotesk', sans-serif;
-  background-color: #f8f9ff;
-  color: #0b1c30;
+  background-color: #041009;
+  color: #e0f2e9;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -124,4 +124,30 @@ circle {
 /* Hide helper */
 .hidden {
   display: none !important;
+}
+
+/* Gradient Border for Dark Forest Green Theme */
+.gradient-border {
+  position: relative;
+  border-radius: 2rem;
+  background: #081a11;
+  background-clip: padding-box;
+  border: 1.5px solid transparent;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 2rem;
+  z-index: -1;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(46,204,113,0.6) 50%, rgba(4,16,9,1) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

@@ -7,24 +7,17 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="theme.js"></script>
   <style>
-    body {
-      font-family: 'Hanken Grotesk', sans-serif;
-      background-color: #f8f9ff;
-    }
-    .clinical-shadow {
-      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
-    }
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     }
   </style>
 </head>
-<body class="bg-background text-on-background min-h-screen flex flex-col justify-center">
+<body class="bg-background text-on-background min-h-screen flex flex-col justify-center font-display">
   <main class="flex-grow flex items-center justify-center p-6">
-    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden clinical-shadow border border-[#E2E8F0]">
+    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-surface rounded-[2rem] overflow-hidden clinical-shadow gradient-border border-0">
       <!-- Branding / Visual Side (Left) -->
-      <div class="hidden md:flex flex-col justify-between p-12 bg-[#006e2f] relative overflow-hidden text-white">
+      <div class="hidden md:flex flex-col justify-between p-12 bg-surface-container relative overflow-hidden text-on-surface">
         <!-- Abstract Decorative Pattern -->
         <div class="absolute inset-0 opacity-10 pointer-events-none">
           <svg height="100%" viewBox="0 0 400 400" width="100%" xmlns="http://www.w3.org/2000/svg">
@@ -33,21 +26,21 @@
           </svg>
         </div>
         <div class="relative z-10">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 text-white">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 backdrop-blur-sm border border-primary/20 text-primary">
             <span class="material-symbols-outlined text-[32px]">nutrition</span>
           </div>
-          <h1 class="text-4xl font-extrabold mb-4">Nutrify</h1>
-          <p class="text-emerald-100 leading-relaxed max-w-sm">
+          <h1 class="text-4xl font-extrabold mb-4 text-primary">Nutrify</h1>
+          <p class="text-on-surface-variant leading-relaxed max-w-sm">
             Precision nutrition meets clinical freshness. Start your journey toward a healthier, more balanced life today.
           </p>
         </div>
         <div class="relative z-10">
-          <div class="bg-white/10 p-6 rounded-lg backdrop-blur-md border border-white/10">
+          <div class="bg-surface-variant/50 p-6 rounded-lg backdrop-blur-md border border-outline-variant/30">
             <div class="flex items-center gap-2 mb-2">
-              <span class="material-symbols-outlined text-emerald-300">verified</span>
-              <span class="text-xs font-bold uppercase tracking-wider">Clinically Grounded</span>
+              <span class="material-symbols-outlined text-primary">verified</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-on-surface">Clinically Grounded</span>
             </div>
-            <p class="text-sm text-emerald-200">
+            <p class="text-sm text-on-surface-variant">
               Trusted by health professionals for accurate macronutrient tracking and metabolic insights.
             </p>
           </div>
@@ -55,75 +48,75 @@
       </div>
 
       <!-- Sign Up Form Side (Right) -->
-      <div class="p-8 md:p-12 flex flex-col justify-center bg-white">
+      <div class="p-8 md:p-12 flex flex-col justify-center bg-surface relative z-10">
         <div class="mb-6">
-          <h2 class="text-2xl font-bold text-slate-800 mb-1">Create Account</h2>
-          <p class="text-sm text-slate-500">Welcome! Please enter your details to join Nutrify.</p>
+          <h2 class="text-2xl font-bold text-on-surface mb-1">Create Account</h2>
+          <p class="text-sm text-on-surface-variant">Welcome! Please enter your details to join Nutrify.</p>
         </div>
         <form id="signup-form" class="space-y-4">
           <!-- Name Field -->
           <div class="space-y-1">
-            <label class="text-sm font-semibold text-slate-700" for="full_name">Full Name</label>
+            <label class="text-sm font-semibold text-on-surface" for="full_name">Full Name</label>
             <div class="relative group">
-              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#006e2f] transition-colors">person</span>
-              <input class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#006e2f] focus:border-transparent transition-all" id="full_name" placeholder="John Doe" type="text" required>
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">person</span>
+              <input class="w-full pl-12 pr-4 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="full_name" placeholder="John Doe" type="text" required>
             </div>
           </div>
           <!-- Email Field -->
           <div class="space-y-1">
-            <label class="text-sm font-semibold text-slate-700" for="email">Email Address</label>
+            <label class="text-sm font-semibold text-on-surface" for="email">Email Address</label>
             <div class="relative group">
-              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#006e2f] transition-colors">mail</span>
-              <input class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#006e2f] focus:border-transparent transition-all" id="email" placeholder="john@example.com" type="email" required>
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">mail</span>
+              <input class="w-full pl-12 pr-4 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="email" placeholder="john@example.com" type="email" required>
             </div>
           </div>
           <!-- Password Field -->
           <div class="space-y-1">
-            <label class="text-sm font-semibold text-slate-700" for="password">Password</label>
+            <label class="text-sm font-semibold text-on-surface" for="password">Password</label>
             <div class="relative group">
-              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#006e2f] transition-colors">lock</span>
-              <input class="w-full pl-12 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#006e2f] focus:border-transparent transition-all" id="password" placeholder="••••••••" type="password" minlength="8" required>
-              <button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors" type="button" onclick="togglePassword()">
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">lock</span>
+              <input class="w-full pl-12 pr-12 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="password" placeholder="••••••••" type="password" minlength="8" required>
+              <button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" type="button" onclick="togglePassword()">
                 <span id="password-toggle-icon" class="material-symbols-outlined">visibility</span>
               </button>
             </div>
-            <p class="text-xs text-slate-400">Must be at least 8 characters long.</p>
+            <p class="text-xs text-on-surface-variant">Must be at least 8 characters long.</p>
           </div>
           <!-- Terms Checkbox -->
           <div class="flex items-start gap-3 py-1">
-            <input class="mt-1 w-4 h-4 rounded border-slate-300 text-[#006e2f] focus:ring-[#006e2f]" id="terms" type="checkbox" required>
-            <label class="text-xs text-slate-500 leading-snug" for="terms">
-              I agree to the <a class="text-[#006e2f] font-bold hover:underline" href="#">Terms of Service</a> and <a class="text-[#006e2f] font-bold hover:underline" href="#">Privacy Policy</a>.
+            <input class="mt-1 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary bg-surface-variant" id="terms" type="checkbox" required>
+            <label class="text-xs text-on-surface-variant leading-snug" for="terms">
+              I agree to the <a class="text-primary font-bold hover:underline" href="#">Terms of Service</a> and <a class="text-primary font-bold hover:underline" href="#">Privacy Policy</a>.
             </label>
           </div>
           <!-- Primary Action -->
-          <button class="w-full bg-[#006e2f] text-white py-4 rounded-lg font-bold hover:opacity-90 active:scale-[0.98] transition-all mt-2" type="submit">
+          <button class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold hover:opacity-90 active:scale-[0.98] transition-all mt-2" type="submit">
             Create Account
           </button>
         </form>
         <!-- Alternative Methods -->
         <div class="mt-6 flex flex-col items-center gap-4">
           <div class="w-full flex items-center gap-4">
-            <div class="h-px bg-slate-200 flex-grow"></div>
-            <span class="text-[10px] text-slate-400 uppercase tracking-widest">or sign up with</span>
-            <div class="h-px bg-slate-200 flex-grow"></div>
+            <div class="h-px bg-outline-variant flex-grow"></div>
+            <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">or sign up with</span>
+            <div class="h-px bg-outline-variant flex-grow"></div>
           </div>
           <div class="flex gap-4 w-full">
-            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors" onclick="handleSocialSignUp()">
+            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-outline-variant bg-surface-variant rounded-xl hover:bg-surface-container transition-colors text-on-surface" onclick="handleSocialSignUp()">
               <img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKGQQOiCfmgXagStnEtp7QoRxsTryBgeT22fRlp-b6JBp0l64Acql7Mjvqo-aVD_YndFkoKVOPWXhSt04EDcUDholD2iro6WzioUztWYRsuRTJlHlpMwn767DwahssDTqX1-fqKnFQx0QaSs_FtBMC7svZwawBR7UkLHE8-yNePmfkOCHZFMaE1X7Gflsr2uYo8219X9AvxcDaUznarqqWT8Pj4ZuMNS6klblBsCBksPou6No0_8KbOcvABYZtCpOZ-pOOQ3np">
-              <span class="text-sm font-semibold text-slate-700">Google</span>
+              <span class="text-sm font-semibold text-on-surface">Google</span>
             </button>
-            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors" onclick="handleSocialSignUp()">
+            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-outline-variant bg-surface-variant rounded-xl hover:bg-surface-container transition-colors text-on-surface" onclick="handleSocialSignUp()">
               <span class="material-symbols-outlined text-[20px]">apps</span>
-              <span class="text-sm font-semibold text-slate-700">Apple</span>
+              <span class="text-sm font-semibold text-on-surface">Apple</span>
             </button>
           </div>
         </div>
         <!-- Footer Link -->
         <div class="mt-8 text-center">
-          <p class="text-sm text-slate-500">
+          <p class="text-sm text-on-surface-variant">
             Already have an account? 
-            <a class="text-[#006e2f] font-bold hover:underline ml-1" href="login.html">Log in</a>
+            <a class="text-primary font-bold hover:underline ml-1" href="login.html">Log in</a>
           </p>
         </div>
       </div>
