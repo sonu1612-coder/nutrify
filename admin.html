@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Admin Dashboard — Support Chat</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .chat-container { scroll-behavior: smooth; }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+  </style>
+</head>
+<body class="font-display overflow-hidden h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-[#0a0a0a] border-b border-[#222] h-16 flex items-center justify-between px-6 flex-shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-black font-bold">A</div>
+      <h1 class="text-xl font-extrabold tracking-tight">Admin<span class="text-primary">Chat</span></h1>
+    </div>
+    <div class="flex items-center gap-4 text-sm text-gray-400">
+      <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> Live Sync</div>
+    </div>
+  </header>
+
+  <div class="flex-grow flex h-[calc(100vh-64px)]">
+    <!-- Left Sidebar: Users -->
+    <div class="w-80 bg-[#0f0f0f] border-r border-[#222] flex flex-col h-full">
+      <div class="p-4 border-b border-[#222]">
+        <button id="broadcast-btn" class="w-full py-2.5 bg-primary/10 text-primary border border-primary/30 rounded-lg hover:bg-primary hover:text-black font-bold transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-lg">campaign</span>
+          Broadcast to All
+        </button>
+      </div>
+      <div id="user-list" class="flex-grow overflow-y-auto p-2 space-y-1">
+        <div class="text-center p-4 text-gray-500 text-sm">Loading users...</div>
+      </div>
+    </div>
+
+    <!-- Main Content: Chat -->
+    <div class="flex-grow bg-[#050505] flex flex-col relative h-full">
+      <!-- Chat Header -->
+      <div class="h-[72px] border-b border-[#222] flex items-center px-6 bg-[#0a0a0a] flex-shrink-0">
+        <div id="chat-header-info" class="flex items-center gap-4 w-full">
+          <div class="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center text-gray-500 material-symbols-outlined">person</div>
+          <div>
+            <h3 class="text-white font-bold text-lg leading-tight">Select a conversation</h3>
+            <p class="text-xs text-gray-500">Or use Broadcast to reach everyone</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Messages -->
+      <div id="chat-messages" class="flex-grow overflow-y-auto p-6 space-y-6">
+        <!-- Empty State -->
+        <div class="h-full flex flex-col items-center justify-center text-gray-600">
+          <span class="material-symbols-outlined text-6xl mb-4 opacity-20">forum</span>
+          <p>Select a user to view messages</p>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="p-4 bg-[#0a0a0a] border-t border-[#222] flex-shrink-0">
+        <form id="admin-chat-form" class="max-w-4xl mx-auto relative flex items-end gap-3">
+          <div class="flex-grow relative">
+            <textarea id="admin-chat-input" disabled rows="1" class="w-full bg-[#111] border border-[#333] text-white rounded-2xl px-5 py-3.5 pr-12 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary disabled:opacity-50 resize-none transition-colors" placeholder="Type a message..."></textarea>
+          </div>
+          <button type="submit" id="admin-send-btn" disabled class="bg-primary text-black w-12 h-12 rounded-full flex items-center justify-center hover:bg-emerald-400 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 flex-shrink-0">
+            <span class="material-symbols-outlined" style="margin-left: 2px;">send</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

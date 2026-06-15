@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Nutrify — Support</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="theme.js"></script>
+  <!-- Google Fonts & Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .chat-container {
+      height: calc(100vh - 200px);
+      scroll-behavior: smooth;
+    }
+  </style>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <link rel="manifest" href="manifest.json">
+  <script src="pwa-install.js" defer></script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col pb-20 md:pb-0 font-display">
+
+  <!-- Header -->
+  <header class="bg-black sticky top-0 z-40 w-full border-b border-primary/30 shadow-[0_4px_30px_rgba(0,168,107,0.15)] text-white">
+    <div class="flex justify-between items-center px-container-margin py-stack-sm w-full max-w-7xl mx-auto">
+      <div class="flex items-center gap-3">
+        <a href="dashboard.html" class="w-10 h-10 rounded-xl overflow-hidden bg-black border border-primary/50 glow-emerald flex-shrink-0 flex items-center justify-center">
+          <img src="logo.png" alt="Logo" class="w-full h-full object-cover mix-blend-lighten">
+        </a>
+        <h1 class="text-headline-md font-display font-extrabold text-primary">Nutrify</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="noti-btn" class="material-symbols-outlined text-primary hover:text-white p-2 rounded-full transition-colors active:scale-95">
+          notifications
+        </button>
+        <a href="profile.html" class="w-9 h-9 rounded-full overflow-hidden bg-black flex-shrink-0 border border-primary/50 glow-emerald active:scale-95 transition-transform">
+          <img id="header-avatar" alt="User Avatar" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-grow w-full max-w-7xl mx-auto flex">
+    <!-- Desktop Side Navigation Bar -->
+    <nav class="hidden md:flex flex-col gap-6 bg-black p-6 w-64 flex-shrink-0 min-h-[calc(100vh-64px)] border-r border-primary/30 mt-2 text-white shadow-[4px_0_30px_rgba(0,168,107,0.1)]">
+      <div class="flex flex-col gap-2">
+        <a href="dashboard.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span class="font-semibold text-body-md">Dashboard</span>
+        </a>
+        <a href="meal-log.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">add_circle</span>
+          <span class="font-semibold text-body-md">Meal Log</span>
+        </a>
+        <a href="ai-assistant.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">chat</span>
+          <span class="font-semibold text-body-md">Nutify Guide</span>
+        </a>
+        <a href="analytics.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">monitoring</span>
+          <span class="font-semibold text-body-md">Analytics</span>
+        </a>
+        <a href="profile.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
+          <span class="material-symbols-outlined">person</span>
+          <span class="font-semibold text-body-md">Profile & Goals</span>
+        </a>
+        
+        <!-- Divider -->
+        <hr class="border-gray-800 my-2">
+        
+        <a href="support.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left bg-btn-gradient text-black glow-emerald font-bold transition-all duration-150">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">support_agent</span>
+          <span class="text-body-md">Contact Support</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Content Area -->
+    <main class="flex-grow p-4 md:p-8 max-w-3xl overflow-x-hidden flex flex-col mx-auto w-full border-x border-outline-variant/10 md:border-none shadow-sm md:shadow-none min-h-[85vh]">
+      <div class="flex-grow flex flex-col bg-surface md:rounded-3xl border border-outline-variant/20 overflow-hidden shadow-sm h-full max-h-[80vh]">
+        
+        <!-- Header -->
+        <div class="py-4 px-6 flex items-center justify-between border-b border-outline-variant/10 bg-surface-container-lowest">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary relative shadow-[0_0_15px_rgba(0,168,107,0.3)]">
+              <span class="material-symbols-outlined text-2xl">support_agent</span>
+              <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-surface rounded-full"></span>
+            </div>
+            <div>
+              <h2 class="text-title-lg font-bold text-on-surface leading-snug">Human Support</h2>
+              <p class="text-xs text-outline font-medium">We typically reply within a few hours</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scrollable Messages -->
+        <div id="support-chat-window" class="flex-grow overflow-y-auto p-4 md:p-6 space-y-4 bg-surface-container-lowest/50 flex flex-col chat-container pb-4">
+          <div class="text-center text-sm text-outline my-4">Chat Started</div>
+          <div class="flex justify-start">
+            <div class="bg-surface-container text-on-surface p-4 rounded-2xl rounded-tl-sm max-w-[80%] shadow-sm">
+              <p class="text-body-md">Hi there! 👋 How can we help you with your Nutrify experience today?</p>
+            </div>
+          </div>
+          <!-- Populated by support.js -->
+        </div>
+
+        <!-- Chat Input -->
+        <div class="p-3 border-t border-outline-variant/10 bg-surface">
+          <form id="support-form" class="relative max-w-2xl mx-auto flex items-end gap-2">
+            <textarea id="support-input" rows="1" class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-2xl py-3.5 pl-5 pr-14 focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-body-md shadow-sm transition-all resize-none" placeholder="Type your message here..."></textarea>
+            <button type="submit" id="support-send-btn" class="absolute right-2 bottom-2 bg-primary text-black w-10 h-10 rounded-full flex items-center justify-center hover:bg-emerald-400 active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-xl" style="margin-left: 2px;">send</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-black border-t border-primary/30 shadow-[0_-4px_30px_rgba(0,168,107,0.15)] px-2 pb-4 pt-2 flex justify-around items-center text-white rounded-t-3xl">
+    <a href="dashboard.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary px-3 py-1 transition-all">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="text-[10px] mt-0.5">Home</span>
+    </a>
+    <a href="meal-log.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary px-3 py-1 transition-all">
+      <span class="material-symbols-outlined">add_circle</span>
+      <span class="text-[10px] mt-0.5">Log</span>
+    </a>
+    <a href="support.html" class="flex flex-col items-center justify-center text-black bg-btn-gradient px-4 py-1.5 rounded-full glow-emerald transition-all relative -top-3 shadow-lg">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">support_agent</span>
+      <span class="text-[10px] mt-0.5 font-bold">Support</span>
+    </a>
+    <a href="ai-assistant.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary px-3 py-1 transition-all">
+      <span class="material-symbols-outlined">chat</span>
+      <span class="text-[10px] mt-0.5">Guide</span>
+    </a>
+    <a href="profile.html" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary px-3 py-1 transition-all">
+      <span class="material-symbols-outlined">person</span>
+      <span class="text-[10px] mt-0.5">Profile</span>
+    </a>
+  </nav>
+
+  <script src="support.js"></script>
+</body>
+</html>
