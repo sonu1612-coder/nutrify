@@ -25,6 +25,13 @@ function showInstallPromotion() {
     return; // Dismissed for this session
   }
 
+  // Do not show install prompt on landing/auth pages
+  const path = window.location.pathname;
+  const page = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+  if (['index.html', 'login.html', 'signup.html', 'onboarding.html', ''].includes(page)) {
+    return; 
+  }
+
   // Check if icon already exists
   if (document.getElementById('pwa-install-container')) return;
 
