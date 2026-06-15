@@ -18,6 +18,8 @@ const ASSETS = [
   './profile.js',
   './calculator.js',
   './nutritionApi.js',
+  './manifest.json',
+  './pwa-install.js',
   'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap',
   'https://unpkg.com/html5-qrcode'

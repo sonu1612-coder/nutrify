@@ -75,12 +75,15 @@ if (window.supabase) {
         const path = window.location.pathname;
         const page = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
         
-        if (page === 'index.html' || page === 'login.html' || page === 'signup.html') {
+        if (page === 'login.html' || page === 'signup.html') {
           if (profile) {
             window.location.replace('dashboard.html');
           } else {
             window.location.replace('onboarding.html');
           }
+        } else if (page === 'index.html' || page === '') {
+          // Store auth state globally so index.html can redirect after intro video
+          window.userAuthState = { loggedIn: true, hasProfile: !!profile };
         }
       }
     } catch (e) {

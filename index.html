@@ -55,6 +55,8 @@
       }
     }
   </style>
+  <link rel="manifest" href="manifest.json">
+  <script src="pwa-install.js" defer></script>
 </head>
 <body class="h-screen w-screen overflow-hidden bg-black text-white relative">
   <!-- Start Overlay -->
@@ -102,6 +104,15 @@
     const optionsContainer = document.getElementById('options-container');
 
     function showOptions() {
+      if (window.userAuthState && window.userAuthState.loggedIn) {
+        if (window.userAuthState.hasProfile) {
+          window.location.replace('dashboard.html');
+        } else {
+          window.location.replace('onboarding.html');
+        }
+        return;
+      }
+
       // Fade out video
       videoContainer.style.opacity = '0';
       // Fade in options
