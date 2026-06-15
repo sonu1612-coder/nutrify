@@ -37,12 +37,11 @@ function showInstallPromotion() {
 
   // Icon Button
   const iconBtn = document.createElement('button');
-  iconBtn.className = 'relative w-12 h-12 rounded-full bg-btn-gradient text-black flex items-center justify-center shadow-[0_0_20px_rgba(0,168,107,0.5)] glow-emerald transition-transform hover:scale-105 active:scale-95';
+  iconBtn.className = 'relative w-12 h-12 rounded-full bg-white text-gray-800 flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95';
   iconBtn.innerHTML = `
-    <span class="material-symbols-outlined" style="font-size: 24px;">download</span>
-    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-black"></span>
+    <span class="material-symbols-outlined" style="font-size: 28px;">download</span>
+    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
   `;
-  iconBtn.title = 'Install App';
   
   // Dropdown Menu
   const menu = document.createElement('div');
