@@ -29,7 +29,7 @@
 
   // Load chat logs from storage
   let chatHistory = JSON.parse(localStorage.getItem('nutrify_chat')) || [
-    { text: "Hi! I'm your Nutify Guide. I have reviewed your target parameters. How can I help you reach your goals today?", isUser: false }
+    { text: "Hi! I'm your Nutrify Guide. I have reviewed your target parameters. How can I help you reach your goals today?", isUser: false }
   ];
 
   const chatWindow = document.getElementById('chat-window');
@@ -96,24 +96,26 @@
   // Smart reply generator
   function getSmartGuideReply(query) {
     const q = query.toLowerCase();
-    const consumedCals = Math.round(logs.foods.reduce((acc, f) => acc + f.calories, 0));
-    const targetCals = profile.targets.calories;
-    const consumedMacros = logs.foods.reduce((acc, f) => {
-      acc.protein += f.protein;
-      acc.carbs += f.carbs;
-      acc.fat += f.fat;
+    const foodsArray = logs.foods || [];
+    const consumedCals = Math.round(foodsArray.reduce((acc, f) => acc + (f.calories || 0), 0));
+    const targetCals = profile.targets && profile.targets.calories ? profile.targets.calories : 2000;
+    const consumedMacros = foodsArray.reduce((acc, f) => {
+      acc.protein += f.protein || 0;
+      acc.carbs += f.carbs || 0;
+      acc.fat += f.fat || 0;
       return acc;
     }, { protein: 0, carbs: 0, fat: 0 });
 
+
     if (q.includes('balance') || q.includes('today') || q.includes('log')) {
-      if (logs.foods.length === 0) {
+      if (foodsArray.length === 0) {
         return "You haven't logged any food yet today! Log your breakfast or lunch so I can evaluate your macronutrient proportions.";
       }
-      return `Today you have logged ${logs.foods.length} items, totaling ${consumedCals} kcal (${Math.round((consumedCals/targetCals)*100)}% of your daily ${targetCals} kcal target). 
+      return `Today you have logged ${foodsArray.length} items, totaling ${consumedCals} kcal (${Math.round((consumedCals/targetCals)*100)}% of your daily ${targetCals} kcal target). 
 Your macronutrients logged so far are:
-- Protein: ${Math.round(consumedMacros.protein)}g (Target: ${profile.targets.macros.protein}g)
-- Carbohydrates: ${Math.round(consumedMacros.carbs)}g (Target: ${profile.targets.macros.carbs}g)
-- Fats: ${Math.round(consumedMacros.fat)}g (Target: ${profile.targets.macros.fat}g)
+- Protein: ${Math.round(consumedMacros.protein)}g (Target: ${profile.targets?.macros?.protein || 0}g)
+- Carbohydrates: ${Math.round(consumedMacros.carbs)}g (Target: ${profile.targets?.macros?.carbs || 0}g)
+- Fats: ${Math.round(consumedMacros.fat)}g (Target: ${profile.targets?.macros?.fat || 0}g)
 
 ${consumedMacros.protein < 40 ? "Tip: You are currently low on protein today. Try adding eggs, Greek yogurt, or lean chicken breast." : "Great job keeping up with your nutrient balance!"}`;
     }
@@ -159,7 +161,7 @@ ${consumedMacros.protein < 40 ? "Tip: You are currently low on protein today. Tr
 
   // Notification button action
   document.getElementById('noti-btn').addEventListener('click', () => {
-    alert("Nutify Guide Alert: Iron deficiency logged this week! Added spinach suggestions to your AI Guide recommendations.");
+    alert("Nutrify Guide Alert: Iron deficiency logged this week! Added spinach suggestions to your AI Guide recommendations.");
   });
 
   // Ripple click effect

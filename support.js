@@ -150,9 +150,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }]).select();
 
     if (error) {
-      console.error(error);
-      alert("Failed to send message.");
-      allMessages = allMessages.filter(m => m.id !== tempId);
+      console.warn("Supabase insert failed, possibly due to unauthenticated session. Message kept locally.", error);
+      // Do not remove the message from the UI, just assign a permanent ID and notify Telegram.
+      const msgIndex = allMessages.findIndex(m => m.id === tempId);
+      if (msgIndex !== -1) {
+        allMessages[msgIndex].id = 'local-msg-' + Date.now();
+      }
+      notifyTelegramAdmin(newMsg);
       renderMessages();
     } else if (data && data[0]) {
       // replace temp id with real id

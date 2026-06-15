@@ -349,54 +349,98 @@
         dropdown.querySelectorAll('.select-item-btn').forEach(btn => {
           btn.addEventListener('click', (e) => {
             const product = JSON.parse(e.currentTarget.dataset.product);
-            showAddGramsModal(product, mealType);
+            showServingModal(product, mealType);
           });
         });
       }, 300);
     });
   }
 
-  // Open Add Grams modal
-  function showAddGramsModal(product, mealType) {
+  // Open Serving Modal
+  function showServingModal(product, mealType) {
+    const optionsHtml = (product.serving_options || [{ serving: "100 grams", grams: 100 }]).map((opt, i) => 
+      `<option value="${opt.grams}" ${i===0?'selected':''}>${opt.serving}</option>`
+    ).join('');
+
     modalContainer.innerHTML = `
       <div class="bg-white border border-outline-variant/30 rounded-2xl w-full max-w-sm shadow-2xl p-6 relative flex flex-col gap-4 fade-in">
-        <button id="close-grams-btn" class="absolute top-4 right-4 text-outline hover:text-on-surface p-1">
+        <button id="close-serving-btn" class="absolute top-4 right-4 text-outline hover:text-on-surface p-1">
           <span class="material-symbols-outlined text-2xl">close</span>
         </button>
 
         <div>
-          <h3 class="text-title-lg font-bold text-on-surface mb-1">Add Grams</h3>
+          <h3 class="text-title-lg font-bold text-on-surface mb-1">Add Food</h3>
           <p class="text-xs font-semibold text-primary">${product.name}</p>
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Weight Consumed</label>
-          <div class="flex items-center gap-2">
+          <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Serving Size</label>
+          <select id="serving-select" class="w-full border border-outline-variant/30 rounded-xl px-4 py-2.5 bg-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none mb-3">
+            ${optionsHtml}
+            <option value="custom">Custom Grams...</option>
+          </select>
+          
+          <div id="custom-grams-container" class="hidden flex items-center gap-2">
             <input id="grams-input" type="number" value="100" min="1" max="2000" class="w-full border border-outline-variant/30 rounded-xl px-4 py-2.5 bg-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
             <span class="font-bold text-on-surface text-lg pr-2">grams</span>
           </div>
+          
+          <div class="mt-4 p-3 bg-surface-variant/20 rounded-xl border border-outline-variant/10 text-center">
+             <p class="text-[10px] text-outline font-bold uppercase tracking-wider mb-1">Estimated Macros</p>
+             <div class="flex justify-between items-center px-2">
+                <span id="est-cals" class="text-lg font-bold text-primary">0 kcal</span>
+                <span id="est-p" class="text-xs font-medium text-on-surface">P: 0g</span>
+                <span id="est-c" class="text-xs font-medium text-on-surface">C: 0g</span>
+                <span id="est-f" class="text-xs font-medium text-on-surface">F: 0g</span>
+             </div>
+          </div>
         </div>
 
-        <button id="save-grams-btn" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-on-primary-container active:scale-95 transition-all">
+        <button id="save-serving-btn" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-on-primary-container active:scale-95 transition-all">
           Log Meal
         </button>
       </div>
     `;
 
-    const input = document.getElementById('grams-input');
-    input.focus();
-    input.select();
+    const select = document.getElementById('serving-select');
+    const customContainer = document.getElementById('custom-grams-container');
+    const gramsInput = document.getElementById('grams-input');
 
-    document.getElementById('close-grams-btn').addEventListener('click', () => {
+    function updateMacros() {
+      let grams = 0;
+      if (select.value === 'custom') {
+        customContainer.classList.remove('hidden');
+        grams = parseFloat(gramsInput.value) || 0;
+        // Make typing easier
+        gramsInput.focus();
+      } else {
+        customContainer.classList.add('hidden');
+        grams = parseFloat(select.value) || 0;
+      }
+      
+      const ratio = grams / 100;
+      document.getElementById('est-cals').innerText = Math.round(product.nutritionPer100g.calories * ratio) + ' kcal';
+      document.getElementById('est-p').innerText = 'P: ' + (product.nutritionPer100g.protein * ratio).toFixed(1) + 'g';
+      document.getElementById('est-c').innerText = 'C: ' + (product.nutritionPer100g.carbs * ratio).toFixed(1) + 'g';
+      document.getElementById('est-f').innerText = 'F: ' + (product.nutritionPer100g.fat * ratio).toFixed(1) + 'g';
+    }
+
+    select.addEventListener('change', updateMacros);
+    gramsInput.addEventListener('input', updateMacros);
+    updateMacros(); // initial render
+
+    document.getElementById('close-serving-btn').addEventListener('click', () => {
       showSearchFoodModal(mealType); // Back to search
     });
 
-    document.getElementById('save-grams-btn').addEventListener('click', () => {
-      const grams = parseFloat(input.value);
+    document.getElementById('save-serving-btn').addEventListener('click', () => {
+      let grams = select.value === 'custom' ? parseFloat(gramsInput.value) : parseFloat(select.value);
       if (grams > 0) {
         const ratio = grams / 100;
+        let finalServingName = select.value === 'custom' ? \`\${grams} grams\` : select.options[select.selectedIndex].text;
+        
         logs.foods.push({
-          name: product.name,
+          name: product.name + \` (\${finalServingName})\`,
           amount: grams,
           calories: Math.round(product.nutritionPer100g.calories * ratio),
           protein: parseFloat((product.nutritionPer100g.protein * ratio).toFixed(1)),
@@ -405,6 +449,12 @@
           mealType
         });
         localStorage.setItem('nutrify_logs', JSON.stringify(logs));
+        
+        // Cache this item to Recent Foods offline DB!
+        if (window.NutritionAPI && window.NutritionAPI.cacheRecentFood) {
+          window.NutritionAPI.cacheRecentFood(product);
+        }
+
         modalContainer.classList.add('hidden');
         renderLogsView();
       }
@@ -486,7 +536,7 @@
 
           document.getElementById('confirm-scan-btn').addEventListener('click', () => {
             html5QrcodeScanner.clear();
-            showAddGramsModal(product, 'breakfast'); // Default to breakfast
+            showServingModal(product, 'breakfast'); // Default to breakfast
           });
 
           document.getElementById('retry-scan-btn').addEventListener('click', () => {
@@ -535,7 +585,7 @@
 
   // Notification button action
   document.getElementById('noti-btn').addEventListener('click', () => {
-    alert("Nutify Guide Alert: Iron deficiency logged this week! Added spinach suggestions to your AI Guide recommendations.");
+    alert("Nutrify Guide Alert: Iron deficiency logged this week! Added spinach suggestions to your AI Guide recommendations.");
   });
 
   // Ripple effect binding

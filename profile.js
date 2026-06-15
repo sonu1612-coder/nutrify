@@ -81,7 +81,7 @@
             </div>
             
             <div class="flex-grow text-center md:text-left">
-              <h2 class="text-headline-md font-bold text-on-surface">${dbProfile.full_name || 'Nutify Member'}</h2>
+              <h2 class="text-headline-md font-bold text-on-surface">${dbProfile.full_name || 'Nutrify Member'}</h2>
               <p class="text-primary font-medium">@${dbProfile.username || 'user_' + Math.floor(Math.random()*1000)}</p>
               <p class="text-body-md text-on-surface-variant mt-2 max-w-lg line-clamp-2">${dbProfile.bio || 'Add a bio to tell the community about your health journey!'}</p>
             </div>

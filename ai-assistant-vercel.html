@@ -14,8 +14,7 @@
   <link rel="stylesheet" href="style.css">
   <style>
     .chat-container {
-      height: calc(100vh - 200px);
-      scroll-behavior: smooth;
+      height: calc(100vh - 270px);
     }
   </style>
   <!-- Supabase -->
@@ -60,7 +59,7 @@
         </a>
         <a href="ai-assistant.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left bg-btn-gradient text-black glow-emerald font-bold transition-all duration-150">
           <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">chat</span>
-          <span class="text-body-md">Nutrify Guide</span>
+          <span class="text-body-md">Nutify Guide</span>
         </a>
         <a href="analytics.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-dark-gray hover:text-primary transition-all duration-150">
           <span class="material-symbols-outlined">monitoring</span>
@@ -74,13 +73,13 @@
     </nav>
 
     <!-- Content Area -->
-    <main class="flex-grow p-4 md:p-8 max-w-3xl overflow-x-hidden flex flex-col mx-auto w-full min-h-[85vh]">
-      <div class="flex-grow flex flex-col bg-surface md:rounded-3xl border border-outline-variant/20 overflow-hidden shadow-sm h-full max-h-[85vh]">
+    <main class="flex-grow p-4 md:p-8 max-w-3xl overflow-x-hidden flex flex-col">
+      <div class="flex-grow flex flex-col h-[calc(100vh-160px)] md:h-[calc(100vh-100px)]">
         
         <!-- Header -->
         <div class="py-2.5 flex items-center justify-between border-b border-outline-variant/10">
           <div>
-            <h2 class="text-title-lg font-bold text-on-surface leading-snug">Nutrify Guide</h2>
+            <h2 class="text-title-lg font-bold text-on-surface leading-snug">Nutify Guide</h2>
             <div class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
               <span class="text-xs text-outline font-medium">System Online</span>
@@ -90,7 +89,7 @@
         </div>
 
         <!-- Scrollable Messages -->
-        <div id="chat-window" class="flex-grow overflow-y-auto p-4 md:p-6 space-y-4 chat-container pb-4">
+        <div id="chat-window" class="flex-grow overflow-y-auto py-6 space-y-4 pr-1 scroll-smooth scroll-hide">
           <!-- Populated by ai-assistant.js -->
         </div>
 
@@ -111,9 +110,9 @@
         </div>
 
         <!-- Chat Input -->
-        <div class="p-3 border-t border-outline-variant/10 bg-surface sticky bottom-0">
-          <div class="relative max-w-2xl mx-auto flex items-end gap-2">
-            <input id="chat-input" class="w-full bg-white border border-outline-variant/30 rounded-full py-3 pl-5 pr-14 focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-body-md shadow-sm transition-all" placeholder="Ask Nutrify Guide anything...">
+        <div class="py-3 border-t border-outline-variant/10 bg-background sticky bottom-0">
+          <div class="relative max-w-2xl mx-auto">
+            <input id="chat-input" class="w-full bg-white border border-outline-variant/30 rounded-full py-3 pl-5 pr-14 focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-body-md shadow-sm transition-all" placeholder="Ask Nutify Guide anything...">
             <button id="chat-send-btn" class="absolute right-1.5 top-1.5 bg-primary text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-on-primary-container active:scale-90 transition-all">
               <span class="material-symbols-outlined text-lg">send</span>
             </button>

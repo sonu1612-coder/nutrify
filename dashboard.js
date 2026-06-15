@@ -173,7 +173,7 @@
           <div class="relative z-10 space-y-2">
             <h4 class="text-label-md font-bold text-on-tertiary-fixed flex items-center gap-2">
               <span class="material-symbols-outlined text-[18px]">lightbulb</span>
-              Daily Nutify Tip
+              Daily Nutrify Tip
             </h4>
             <p class="text-body-md text-on-tertiary-fixed-variant leading-snug">
               Pairing complex carbs (like oats or brown rice) with fiber-rich greens stabilizes insulin and sustains energy levels throughout the afternoon.
@@ -215,7 +215,7 @@
 
   // Notification click listener
   document.getElementById('noti-btn').addEventListener('click', () => {
-    alert("Nutify Guide Alert: Iron deficiency logged this week! Added spinach suggestions to your AI Guide recommendations.");
+    alert("Nutrify Guide Alert: Iron deficiency logged this week! Added spinach suggestions to your AI Guide recommendations.");
   });
 
   // Ripple effect binding

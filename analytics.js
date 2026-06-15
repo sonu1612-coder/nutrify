@@ -174,7 +174,7 @@
 
   // Notification button action
   document.getElementById('noti-btn').addEventListener('click', () => {
-    alert("Nutify Guide Alert: Iron deficiency logged this week! Added spinach suggestions to your AI Guide recommendations.");
+    alert("Nutrify Guide Alert: Iron deficiency logged this week! Added spinach suggestions to your AI Guide recommendations.");
   });
 
   // Ripple effect
