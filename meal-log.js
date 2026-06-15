@@ -437,10 +437,10 @@
       let grams = select.value === 'custom' ? parseFloat(gramsInput.value) : parseFloat(select.value);
       if (grams > 0) {
         const ratio = grams / 100;
-        let finalServingName = select.value === 'custom' ? \`\${grams} grams\` : select.options[select.selectedIndex].text;
+        let finalServingName = select.value === 'custom' ? `${grams} grams` : select.options[select.selectedIndex].text;
         
         logs.foods.push({
-          name: product.name + \` (\${finalServingName})\`,
+          name: product.name + ` (${finalServingName})`,
           amount: grams,
           calories: Math.round(product.nutritionPer100g.calories * ratio),
           protein: parseFloat((product.nutritionPer100g.protein * ratio).toFixed(1)),
