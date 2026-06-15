@@ -37,8 +37,11 @@ function showInstallPromotion() {
 
   // Icon Button
   const iconBtn = document.createElement('button');
-  iconBtn.className = 'w-12 h-12 rounded-full bg-btn-gradient text-black flex items-center justify-center shadow-[0_0_20px_rgba(0,168,107,0.5)] glow-emerald transition-transform hover:scale-105 active:scale-95';
-  iconBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 24px;">install_mobile</span>';
+  iconBtn.className = 'relative w-12 h-12 rounded-full bg-btn-gradient text-black flex items-center justify-center shadow-[0_0_20px_rgba(0,168,107,0.5)] glow-emerald transition-transform hover:scale-105 active:scale-95';
+  iconBtn.innerHTML = `
+    <span class="material-symbols-outlined" style="font-size: 24px;">download</span>
+    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-black"></span>
+  `;
   iconBtn.title = 'Install App';
   
   // Dropdown Menu
@@ -51,11 +54,11 @@ function showInstallPromotion() {
 
   const installBtn = document.createElement('button');
   installBtn.className = 'w-full text-left px-4 py-2 hover:bg-primary/20 hover:text-primary rounded-lg transition-colors font-semibold text-sm flex items-center gap-2';
-  installBtn.innerHTML = '<span class="material-symbols-outlined text-base">install_mobile</span> Install App';
+  installBtn.innerHTML = '<span class="material-symbols-outlined text-base">download</span> Install';
   
   const removeBtn = document.createElement('button');
   removeBtn.className = 'w-full text-left px-4 py-2 hover:bg-red-500/20 hover:text-red-400 rounded-lg transition-colors font-semibold text-sm flex items-center gap-2 text-gray-300';
-  removeBtn.innerHTML = '<span class="material-symbols-outlined text-base">close</span> Remove Icon';
+  removeBtn.innerHTML = '<span class="material-symbols-outlined text-base">close</span> Remove';
 
   menu.appendChild(installBtn);
   menu.appendChild(removeBtn);
