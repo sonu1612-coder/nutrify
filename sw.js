@@ -1,5 +1,5 @@
 // Service Worker for Nutrify PWA
-const CACHE_NAME = 'nutrify-v1';
+const CACHE_NAME = 'nutrify-v2';
 const ASSETS = [
   './',
   './index.html',
