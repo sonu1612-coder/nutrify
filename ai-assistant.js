@@ -93,9 +93,6 @@
   }
 
   async function callNvidiaAssistant(userMessage) {
-    const url = "https://integrate.api.nvidia.com/v1/chat/completions";
-    const apiKey = "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";
-    
     // Fetch History Data for Trends
     const historyData = JSON.parse(localStorage.getItem('nutrify_history')) || {};
     
@@ -146,33 +143,27 @@ ${JSON.stringify(historyData).substring(0, 500)} // Providing a summarized view 
       });
     });
 
-    const requestBody = {
-      model: "nvidia/nemotron-3-nano-30b-a3b",
-      messages: messages,
-      temperature: 0.7,
-      top_p: 1,
-      max_tokens: 1024, 
-      stream: false
-    };
-
     try {
-      const response = await fetch(url, {
+      const response = await fetch('/api/chat', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify({ messages })
       });
 
       if (!response.ok) {
+        if (response.status === 429) {
+          const errorData = await response.json();
+          return errorData.error || "You have reached your daily limit of 100 messages. Please try again tomorrow!";
+        }
         throw new Error(`API error: ${response.status}`);
       }
 
       const data = await response.json();
       return data.choices[0].message.content;
     } catch (error) {
-      console.error("Error calling Nvidia API:", error);
+      console.error("Error calling backend API:", error);
       return "I'm sorry, I'm having trouble connecting to the medical server right now. Please check your internet connection and try again.";
     }
   }

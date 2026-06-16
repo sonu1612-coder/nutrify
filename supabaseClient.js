@@ -1,10 +1,19 @@
 // Supabase Client Initialization & Local-First Sync
-const supabaseUrl = 'https://biwgybdoahycmdsskted.supabase.co';
-const supabaseKey = 'sb_publishable_-oUU_urjlm2nlNBDVZ3nJQ_Iu9HdKyb';
 
-if (window.supabase) {
-  window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-  
+async function initSupabase() {
+  if (!window.supabase) {
+    console.error("Supabase library not loaded. Make sure the CDN script is included.");
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/config');
+    const config = await res.json();
+    window.supabaseClient = window.supabase.createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
+  } catch (err) {
+    console.error("Failed to load Supabase config:", err);
+    return;
+  }
   // Expose an async sync mechanism
   window.syncWithCloud = async function() {
     const { data: { user } } = await window.supabaseClient.auth.getUser();
@@ -91,6 +100,6 @@ if (window.supabase) {
     }
   })();
 
-} else {
-  console.error("Supabase library not loaded. Make sure the CDN script is included.");
 }
+
+initSupabase();
