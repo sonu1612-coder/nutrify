@@ -9,6 +9,14 @@ body {
   color: #0B0B0B;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: light only;
+}
+
+/* Force hardware acceleration on main scrolling areas to reduce CPU load */
+main, .flex-grow.overflow-y-auto, #chat-window, .scroll-container {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform, scroll-position;
 }
 
 /* Custom Scrollbars */

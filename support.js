@@ -81,7 +81,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     let html = greeting;
-    allMessages.forEach(m => {
+    // Pagination: Only render the last 50 messages to prevent GPU/CPU locking on mobile devices
+    const displayHistory = allMessages.slice(-50);
+    displayHistory.forEach(m => {
       const isUser = m.sender === 'user';
       if (isUser) {
         html += `

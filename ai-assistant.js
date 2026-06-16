@@ -98,7 +98,9 @@
 
   function renderChatHistory() {
     chatWindow.innerHTML = '';
-    chatHistory.forEach(msg => {
+    // Pagination: Only render the last 50 messages to prevent GPU/CPU locking on mobile devices
+    const displayHistory = chatHistory.slice(-50);
+    displayHistory.forEach(msg => {
       renderChatBubble(msg);
     });
   }
