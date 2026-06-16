@@ -74,8 +74,111 @@
     });
   }
 
+  // Add a temporary loading bubble
+  function renderLoadingBubble() {
+    const wrapper = document.createElement('div');
+    wrapper.id = 'loading-bubble';
+    wrapper.className = `flex flex-col items-start max-w-[85%] fade-in`;
+    const container = document.createElement('div');
+    container.className = `p-4 rounded-2xl bg-white text-on-background border border-outline-variant/20 rounded-tl-none shadow-sm border-l-4 border-l-primary flex items-center gap-1`;
+    container.innerHTML = `<div class="w-2 h-2 rounded-full bg-primary animate-bounce"></div><div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 0.2s"></div>`;
+    wrapper.appendChild(container);
+    chatWindow.appendChild(wrapper);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  function removeLoadingBubble() {
+    const loader = document.getElementById('loading-bubble');
+    if (loader) loader.remove();
+  }
+
+  async function callNvidiaAssistant(userMessage) {
+    const url = "https://integrate.api.nvidia.com/v1/chat/completions";
+    const apiKey = "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";
+    
+    // Fetch History Data for Trends
+    const historyData = JSON.parse(localStorage.getItem('nutrify_history')) || {};
+    
+    // Calculate today's consumed macros
+    const foodsArray = logs.foods || [];
+    const consumedCals = Math.round(foodsArray.reduce((acc, f) => acc + (f.calories || 0), 0));
+    const consumedMacros = foodsArray.reduce((acc, f) => {
+      acc.protein += f.protein || 0;
+      acc.carbs += f.carbs || 0;
+      acc.fat += f.fat || 0;
+      return acc;
+    }, { protein: 0, carbs: 0, fat: 0 });
+
+    // Build System Prompt
+    const systemPrompt = `You are Nutrify Guide, an AI friend and professional doctor for the user. 
+Customize your guidance based on their profile, goals, and logged data. Analyze their daily, weekly, and monthly data when asked or when relevant. Give specific, practical, and empathetic advice. Keep responses relatively concise but thorough.
+
+User Profile:
+- Name: ${profile.name || 'User'}
+- Gender: ${profile.gender || 'Not specified'}
+- Age: ${profile.age || 'Not specified'}
+- Weight: ${profile.weight || 'Not specified'} kg
+- Target Calories: ${profile.targets?.calories || 2000} kcal
+- Target Macros: Protein ${profile.targets?.macros?.protein || 0}g, Carbs ${profile.targets?.macros?.carbs || 0}g, Fat ${profile.targets?.macros?.fat || 0}g
+
+Today's Data:
+- Logged Foods: ${foodsArray.length} items
+- Water: ${logs.waterCups || 0} cups
+- Calories Consumed Today: ${consumedCals} kcal
+- Macros Consumed Today: Protein ${Math.round(consumedMacros.protein)}g, Carbs ${Math.round(consumedMacros.carbs)}g, Fat ${Math.round(consumedMacros.fat)}g
+
+Historical Data Summary (last few days):
+${JSON.stringify(historyData).substring(0, 500)} // Providing a summarized view of recent history
+`;
+
+    // Map existing chat history to OpenAI format (limit to last 10 messages)
+    const messages = [
+      { role: "system", content: systemPrompt }
+    ];
+    
+    const recentHistory = chatHistory.slice(-10);
+    recentHistory.forEach(msg => {
+      // Don't send initial welcome message if it's the only one
+      if (recentHistory.length === 1 && !msg.isUser) return;
+      messages.push({
+        role: msg.isUser ? "user" : "assistant",
+        content: msg.text
+      });
+    });
+
+    const requestBody = {
+      model: "nvidia/nemotron-3-nano-30b-a3b",
+      messages: messages,
+      temperature: 0.7,
+      top_p: 1,
+      max_tokens: 1024, 
+      stream: false
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+    } catch (error) {
+      console.error("Error calling Nvidia API:", error);
+      return "I'm sorry, I'm having trouble connecting to the medical server right now. Please check your internet connection and try again.";
+    }
+  }
+
   // Send message action
-  function sendMessage(text) {
+  async function sendMessage(text) {
     const msg = text || chatInput.value;
     if (!msg.trim()) return;
 
@@ -84,55 +187,16 @@
     localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
     chatInput.value = '';
 
-    // Simulate AI response
-    setTimeout(() => {
-      const response = getSmartGuideReply(msg);
-      renderChatBubble(response, false);
-      chatHistory.push({ text: response, isUser: false });
-      localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
-    }, 1000);
-  }
+    renderLoadingBubble();
 
-  // Smart reply generator
-  function getSmartGuideReply(query) {
-    const q = query.toLowerCase();
-    const foodsArray = logs.foods || [];
-    const consumedCals = Math.round(foodsArray.reduce((acc, f) => acc + (f.calories || 0), 0));
-    const targetCals = profile.targets && profile.targets.calories ? profile.targets.calories : 2000;
-    const consumedMacros = foodsArray.reduce((acc, f) => {
-      acc.protein += f.protein || 0;
-      acc.carbs += f.carbs || 0;
-      acc.fat += f.fat || 0;
-      return acc;
-    }, { protein: 0, carbs: 0, fat: 0 });
-
-
-    if (q.includes('balance') || q.includes('today') || q.includes('log')) {
-      if (foodsArray.length === 0) {
-        return "You haven't logged any food yet today! Log your breakfast or lunch so I can evaluate your macronutrient proportions.";
-      }
-      return `Today you have logged ${foodsArray.length} items, totaling ${consumedCals} kcal (${Math.round((consumedCals/targetCals)*100)}% of your daily ${targetCals} kcal target). 
-Your macronutrients logged so far are:
-- Protein: ${Math.round(consumedMacros.protein)}g (Target: ${profile.targets?.macros?.protein || 0}g)
-- Carbohydrates: ${Math.round(consumedMacros.carbs)}g (Target: ${profile.targets?.macros?.carbs || 0}g)
-- Fats: ${Math.round(consumedMacros.fat)}g (Target: ${profile.targets?.macros?.fat || 0}g)
-
-${consumedMacros.protein < 40 ? "Tip: You are currently low on protein today. Try adding eggs, Greek yogurt, or lean chicken breast." : "Great job keeping up with your nutrient balance!"}`;
-    }
-
-    if (q.includes('snack') || q.includes('recipe') || q.includes('eat')) {
-      return "Here are a few high-protein, calorie-friendly options based on your goals:\n1. Greek Yogurt (150g) with 50g blueberries (approx. 180 kcal, 15g Protein).\n2. Rice cake with 1 tbsp smooth peanut butter and sliced banana (approx. 200 kcal).\n3. Handful of almonds (20g) and one hard-boiled egg (approx. 200 kcal).";
-    }
-
-    if (q.includes('hydration') || q.includes('water')) {
-      return `You have logged ${logs.waterCups} cups of water today (${(logs.waterCups * 0.25).toFixed(2)}L). Staying hydrated is crucial for maintaining metabolic efficiency and muscle function. Aim for at least 8 cups (2.0L) daily!`;
-    }
-
-    if (q.includes('trend') || q.includes('vitamin') || q.includes('history')) {
-      return "Looking at your last 7 days of historical logs, your daily calorie consistency is at 85%. You're doing excellent! However, fiber and iron levels tend to dip slightly on weekends. I recommend adding a cup of spinach or kale to Saturday's meals.";
-    }
-
-    return "I can help you audit your calorie targets, recommend high-protein foods, or check your hydration status. Let me know what you need!";
+    const responseText = await callNvidiaAssistant(msg);
+    
+    removeLoadingBubble();
+    
+    // Format response (replace markdown newlines with HTML breaks for simple rendering if needed)
+    renderChatBubble(responseText, false);
+    chatHistory.push({ text: responseText, isUser: false });
+    localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
   }
 
   // Clear chat
