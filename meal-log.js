@@ -59,10 +59,17 @@
             <h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg font-bold text-on-surface">Daily Log</h2>
             <p class="text-body-md text-on-surface-variant font-medium">${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
           </div>
-          <button id="scan-barcode-btn" class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-label-md font-bold shadow-md hover:bg-on-primary-container active:scale-95 transition-all">
-            <span class="material-symbols-outlined text-[20px]">barcode_scanner</span>
-            Barcode Scan
-          </button>
+          <div class="flex gap-2 flex-wrap">
+            <button id="scan-barcode-btn" class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-label-md font-bold shadow-md hover:bg-on-primary-container active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-[20px]">barcode_scanner</span>
+              Barcode Scan
+            </button>
+            <label for="camera-scan-input" class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-label-md font-bold shadow-md hover:bg-on-primary-container active:scale-95 transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-[20px]">photo_camera</span>
+              AI Scan
+            </label>
+            <input type="file" id="camera-scan-input" accept="image/*" capture="environment" class="hidden">
+          </div>
         </section>
 
         <!-- Dynamic Summary Widget -->
@@ -196,6 +203,17 @@
 
     // Wire scan barcode button
     document.getElementById('scan-barcode-btn').addEventListener('click', showBarcodeScannerModal);
+
+    // Wire camera scan button
+    const cameraInput = document.getElementById('camera-scan-input');
+    if (cameraInput) {
+      cameraInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        await processCameraImage(file);
+        cameraInput.value = ''; // Reset input
+      });
+    }
   }
 
   // Row list html builder
@@ -569,6 +587,94 @@
     }
 
     document.getElementById('close-scanner-btn').addEventListener('click', cleanUpScanner);
+  }
+
+  // Process image from camera for AI prediction
+  async function processCameraImage(file) {
+    // Show loading modal
+    modalContainer.innerHTML = `
+      <div class="bg-white border border-outline-variant/30 rounded-2xl w-full max-w-sm shadow-2xl p-6 relative flex flex-col items-center justify-center gap-4 fade-in">
+        <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-sm font-bold text-on-surface text-center">Nvidia AI is analyzing your food...</p>
+        <p class="text-xs text-on-surface-variant text-center">Estimating portions and macros.</p>
+      </div>
+    `;
+    modalContainer.classList.remove('hidden');
+
+    try {
+      // Compress and convert to base64
+      const base64 = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const maxDimension = 800;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height && width > maxDimension) {
+              height *= maxDimension / width;
+              width = maxDimension;
+            } else if (height > maxDimension) {
+              width *= maxDimension / height;
+              height = maxDimension;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.8));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Send to Vercel backend
+      const response = await fetch('/api/vision', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBase64: base64 })
+      });
+
+      if (!response.ok) {
+        throw new Error('Vision API error');
+      }
+
+      const data = await response.json();
+      
+      // Map AI prediction to product format
+      const predictedProduct = {
+        name: data.name || 'AI Predicted Food',
+        brand: 'AI Estimation',
+        serving_options: [
+          { serving: `${data.grams || 100} grams (Estimated)`, grams: data.grams || 100 }
+        ],
+        nutritionPer100g: {
+          calories: Math.round(((data.calories || 0) / (data.grams || 100)) * 100) || 0,
+          protein: parseFloat((((data.protein || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          carbs: parseFloat((((data.carbs || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          fat: parseFloat((((data.fat || 0) / (data.grams || 100)) * 100).toFixed(1))
+        }
+      };
+
+      showServingModal(predictedProduct, 'lunch'); // Default to lunch, user can edit
+
+    } catch (error) {
+      console.error(error);
+      modalContainer.innerHTML = `
+        <div class="bg-white border border-outline-variant/30 rounded-2xl w-full max-w-sm shadow-2xl p-6 relative flex flex-col items-center justify-center gap-4 fade-in">
+          <span class="material-symbols-outlined text-4xl text-error">error</span>
+          <p class="text-sm font-bold text-on-surface text-center">Failed to analyze image.</p>
+          <button id="close-error-btn" class="w-full bg-primary text-white py-2 rounded-xl text-xs font-bold hover:bg-on-primary-container transition-all">Close</button>
+        </div>
+      `;
+      document.getElementById('close-error-btn').addEventListener('click', () => {
+        modalContainer.classList.add('hidden');
+      });
+    }
   }
 
   // ==========================================

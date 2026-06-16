@@ -182,6 +182,71 @@
         { serving: "100 grams", grams: 100 }
       ],
       nutritionPer100g: { calories: 387, protein: 0, carbs: 100, fat: 0 }
+    },
+    "puri": {
+      name: "Puri / Poori",
+      brand: "Homemade",
+      serving_options: [
+        { serving: "1 medium puri (25g)", grams: 25 },
+        { serving: "2 puris (50g)", grams: 50 },
+        { serving: "100 grams", grams: 100 }
+      ],
+      nutritionPer100g: { calories: 320, protein: 6.0, carbs: 42.0, fat: 15.0 }
+    },
+    "sabji": {
+      name: "Mixed Veg Sabji",
+      brand: "Homemade",
+      serving_options: [
+        { serving: "1 Katori / Bowl (150g)", grams: 150 },
+        { serving: "100 grams", grams: 100 }
+      ],
+      nutritionPer100g: { calories: 95, protein: 2.5, carbs: 12.0, fat: 4.5 }
+    },
+    "kaddu ki sabji": {
+      name: "Kaddu Ki Sabji (Pumpkin Curry)",
+      brand: "Homemade",
+      serving_options: [
+        { serving: "1 Katori / Bowl (150g)", grams: 150 },
+        { serving: "100 grams", grams: 100 }
+      ],
+      nutritionPer100g: { calories: 75, protein: 1.5, carbs: 10.0, fat: 3.5 }
+    },
+    "bhindi ki sabji": {
+      name: "Bhindi Ki Sabji (Okra/Ladyfinger)",
+      brand: "Homemade",
+      serving_options: [
+        { serving: "1 Katori / Bowl (150g)", grams: 150 },
+        { serving: "100 grams", grams: 100 }
+      ],
+      nutritionPer100g: { calories: 110, protein: 2.0, carbs: 10.0, fat: 7.0 }
+    },
+    "paratha": {
+      name: "Plain Paratha",
+      brand: "Homemade",
+      serving_options: [
+        { serving: "1 medium (50g)", grams: 50 },
+        { serving: "1 large (80g)", grams: 80 },
+        { serving: "100 grams", grams: 100 }
+      ],
+      nutritionPer100g: { calories: 330, protein: 7.5, carbs: 48.0, fat: 12.5 }
+    },
+    "naan": {
+      name: "Butter Naan",
+      brand: "Restaurant",
+      serving_options: [
+        { serving: "1 piece (90g)", grams: 90 },
+        { serving: "100 grams", grams: 100 }
+      ],
+      nutritionPer100g: { calories: 310, protein: 9.0, carbs: 50.0, fat: 8.0 }
+    },
+    "palak paneer": {
+      name: "Palak Paneer",
+      brand: "Homemade",
+      serving_options: [
+        { serving: "1 Katori / Bowl (200g)", grams: 200 },
+        { serving: "100 grams", grams: 100 }
+      ],
+      nutritionPer100g: { calories: 140, protein: 7.0, carbs: 5.0, fat: 10.0 }
     }
   };
 
