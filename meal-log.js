@@ -645,6 +645,11 @@
 
       const data = await response.json();
       
+      if (data.unknown === true) {
+        showUnknownFoodModal();
+        return;
+      }
+      
       // Map AI prediction to product format
       const predictedProduct = {
         name: data.name || 'AI Predicted Food',
@@ -675,6 +680,90 @@
         modalContainer.classList.add('hidden');
       });
     }
+  }
+
+  // Show Unknown Food Manual Entry Modal
+  function showUnknownFoodModal() {
+    modalContainer.innerHTML = `
+      <div class="bg-white border border-outline-variant/30 rounded-2xl w-full max-w-sm shadow-2xl p-6 relative flex flex-col gap-4 fade-in">
+        <button id="close-unknown-btn" class="absolute top-4 right-4 text-outline hover:text-on-surface p-1">
+          <span class="material-symbols-outlined text-2xl">close</span>
+        </button>
+
+        <div>
+          <h3 class="text-title-lg font-bold text-on-surface mb-1">Food Not Recognized</h3>
+          <p class="text-xs text-on-surface-variant font-medium">We couldn't clearly recognize the food in this picture. What is it?</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Food Name</label>
+          <input id="unknown-food-name" type="text" placeholder="e.g., Millet Dosa" class="w-full border border-outline-variant/30 rounded-xl px-4 py-2.5 bg-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none mb-3">
+        </div>
+
+        <button id="search-nutrition-btn" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-on-primary-container active:scale-95 transition-all">
+          Get Nutrition
+        </button>
+      </div>
+    `;
+
+    document.getElementById('close-unknown-btn').addEventListener('click', () => {
+      modalContainer.classList.add('hidden');
+    });
+
+    document.getElementById('search-nutrition-btn').addEventListener('click', async () => {
+      const foodName = document.getElementById('unknown-food-name').value.trim();
+      if (!foodName) return;
+
+      // Show loading
+      modalContainer.innerHTML = `
+        <div class="bg-white border border-outline-variant/30 rounded-2xl w-full max-w-sm shadow-2xl p-6 relative flex flex-col items-center justify-center gap-4 fade-in">
+          <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <p class="text-sm font-bold text-on-surface text-center">Fetching nutrition for ${foodName}...</p>
+        </div>
+      `;
+
+      try {
+        const response = await fetch('/api/nutrition', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ foodName })
+        });
+
+        if (!response.ok) {
+          throw new Error('Nutrition API error');
+        }
+
+        const data = await response.json();
+        
+        const predictedProduct = {
+          name: data.name || foodName,
+          brand: 'AI Estimation',
+          serving_options: [
+            { serving: "100 grams", grams: 100 }
+          ],
+          nutritionPer100g: {
+            calories: Math.round(((data.calories || 0) / (data.grams || 100)) * 100) || 0,
+            protein: parseFloat((((data.protein || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            carbs: parseFloat((((data.carbs || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            fat: parseFloat((((data.fat || 0) / (data.grams || 100)) * 100).toFixed(1))
+          }
+        };
+
+        showServingModal(predictedProduct, 'lunch');
+      } catch (error) {
+        console.error(error);
+        modalContainer.innerHTML = `
+          <div class="bg-white border border-outline-variant/30 rounded-2xl w-full max-w-sm shadow-2xl p-6 relative flex flex-col items-center justify-center gap-4 fade-in">
+            <span class="material-symbols-outlined text-4xl text-error">error</span>
+            <p class="text-sm font-bold text-on-surface text-center">Failed to fetch nutrition data.</p>
+            <button id="close-error-btn" class="w-full bg-primary text-white py-2 rounded-xl text-xs font-bold hover:bg-on-primary-container transition-all">Close</button>
+          </div>
+        `;
+        document.getElementById('close-error-btn').addEventListener('click', () => {
+          modalContainer.classList.add('hidden');
+        });
+      }
+    });
   }
 
   // ==========================================

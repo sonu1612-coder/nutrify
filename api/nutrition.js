@@ -3,36 +3,25 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { imageBase64 } = req.body;
-  if (!imageBase64) {
-    return res.status(400).json({ error: 'Image is required' });
+  const { foodName } = req.body;
+  if (!foodName) {
+    return res.status(400).json({ error: 'Food name is required' });
   }
 
   const url = "https://integrate.api.nvidia.com/v1/chat/completions";
   const apiKey = process.env.NVIDIA_API_KEY;
 
   const requestBody = {
-    model: "meta/llama-3.2-11b-vision-instruct",
+    model: "nvidia/nemotron-3-nano-30b-a3b",
     messages: [
       {
         role: "user",
-        content: [
-          {
-            type: "text",
-            text: "Analyze this image of food. Identify the primary food item, estimate the serving size in grams, and calculate the approximate nutritional values. Respond ONLY with a valid JSON object in this exact format: {\"name\": \"Food Name\", \"grams\": 100, \"calories\": 250, \"protein\": 10, \"carbs\": 20, \"fat\": 5}. If you cannot clearly recognize any food in the image, return EXACTLY this JSON: {\"unknown\": true}. Do not include any other text or markdown."
-          },
-          {
-            type: "image_url",
-            image_url: {
-              url: imageBase64
-            }
-          }
-        ]
+        content: `You are a nutrition database. Provide the estimated nutritional values for 100 grams of "${foodName}". Respond ONLY with a valid JSON object in this exact format: {"name": "${foodName}", "grams": 100, "calories": 250, "protein": 10, "carbs": 20, "fat": 5}. Do not include any other text, markdown formatting, or explanation. Just the JSON object.`
       }
     ],
-    temperature: 0.2,
-    top_p: 0.7,
-    max_tokens: 512,
+    temperature: 0.1,
+    top_p: 1.0,
+    max_tokens: 256,
     stream: false
   };
 
@@ -48,7 +37,7 @@ module.exports = async function handler(req, res) {
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error("Nvidia Vision API Error:", response.status, errorData);
+      console.error("Nvidia Nutrition API Error:", response.status, errorData);
       return res.status(response.status).json({ error: `API error: ${response.status}` });
     }
 
@@ -70,7 +59,7 @@ module.exports = async function handler(req, res) {
       throw new Error("Invalid JSON from AI");
     }
   } catch (error) {
-    console.error("Error calling Nvidia Vision API:", error);
-    return res.status(500).json({ error: "Failed to analyze image." });
+    console.error("Error calling Nvidia Nutrition API:", error);
+    return res.status(500).json({ error: "Failed to fetch nutrition data." });
   }
 };
