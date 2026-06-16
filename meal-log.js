@@ -15,7 +15,14 @@
     if (logs && logs.date) {
       let history = JSON.parse(localStorage.getItem('nutrify_history')) || {};
       const cals = Math.round(logs.foods.reduce((acc, f) => acc + f.calories, 0));
-      history[logs.date] = { calories: cals, waterCups: logs.waterCups || 0 };
+      const iron = Math.round(logs.foods.reduce((acc, f) => acc + (f.iron || 0), 0));
+      const vitC = Math.round(logs.foods.reduce((acc, f) => acc + (f.vitaminC || 0), 0));
+      const calcium = Math.round(logs.foods.reduce((acc, f) => acc + (f.calcium || 0), 0));
+      history[logs.date] = { 
+        calories: cals, 
+        waterCups: logs.waterCups || 0,
+        iron, vitC, calcium
+      };
       localStorage.setItem('nutrify_history', JSON.stringify(history));
     }
     logs = {
@@ -417,6 +424,23 @@
                 <span id="est-c" class="text-xs font-medium text-on-surface">C: 0g</span>
                 <span id="est-f" class="text-xs font-medium text-on-surface">F: 0g</span>
              </div>
+
+             <!-- Advanced Nutrition -->
+             <div id="advanced-nutrition" class="mt-3 pt-3 border-t border-outline-variant/20 hidden">
+               <p class="text-[10px] text-outline font-bold uppercase tracking-wider mb-2">Micronutrients & Vitamins</p>
+               <div class="grid grid-cols-2 gap-2 text-left px-2">
+                 <div class="text-[10px]"><span class="font-bold text-on-surface">Fiber:</span> <span id="est-fiber" class="text-on-surface-variant">0g</span></div>
+                 <div class="text-[10px]"><span class="font-bold text-on-surface">Sugar:</span> <span id="est-sugar" class="text-on-surface-variant">0g</span></div>
+                 <div class="text-[10px]"><span class="font-bold text-on-surface">Sodium:</span> <span id="est-sodium" class="text-on-surface-variant">0mg</span></div>
+                 <div class="text-[10px]"><span class="font-bold text-on-surface">Potassium:</span> <span id="est-potassium" class="text-on-surface-variant">0mg</span></div>
+                 <div class="text-[10px]"><span class="font-bold text-on-surface">Calcium:</span> <span id="est-calcium" class="text-on-surface-variant">0mg</span></div>
+                 <div class="text-[10px]"><span class="font-bold text-on-surface">Iron:</span> <span id="est-iron" class="text-on-surface-variant">0mg</span></div>
+                 <div class="text-[10px]"><span class="font-bold text-on-surface">Vitamin A:</span> <span id="est-vita" class="text-on-surface-variant">0mcg</span></div>
+                 <div class="text-[10px]"><span class="font-bold text-on-surface">Vitamin C:</span> <span id="est-vitc" class="text-on-surface-variant">0mg</span></div>
+                 <div class="text-[10px] col-span-2"><span class="font-bold text-on-surface">BCAAs (Leu/Iso/Val):</span> <span id="est-bcaa" class="text-on-surface-variant">0/0/0g</span></div>
+               </div>
+             </div>
+             <button id="toggle-advanced-btn" class="text-[10px] text-primary font-bold mt-2 hover:underline">Show Advanced Details</button>
           </div>
         </div>
 
@@ -443,15 +467,39 @@
       }
       
       const ratio = grams / 100;
-      document.getElementById('est-cals').innerText = Math.round(product.nutritionPer100g.calories * ratio) + ' kcal';
-      document.getElementById('est-p').innerText = 'P: ' + (product.nutritionPer100g.protein * ratio).toFixed(1) + 'g';
-      document.getElementById('est-c').innerText = 'C: ' + (product.nutritionPer100g.carbs * ratio).toFixed(1) + 'g';
-      document.getElementById('est-f').innerText = 'F: ' + (product.nutritionPer100g.fat * ratio).toFixed(1) + 'g';
+      document.getElementById('est-cals').innerText = Math.round((product.nutritionPer100g.calories || 0) * ratio) + ' kcal';
+      document.getElementById('est-p').innerText = 'P: ' + ((product.nutritionPer100g.protein || 0) * ratio).toFixed(1) + 'g';
+      document.getElementById('est-c').innerText = 'C: ' + ((product.nutritionPer100g.carbs || 0) * ratio).toFixed(1) + 'g';
+      document.getElementById('est-f').innerText = 'F: ' + ((product.nutritionPer100g.fat || 0) * ratio).toFixed(1) + 'g';
+      
+      document.getElementById('est-fiber').innerText = ((product.nutritionPer100g.fiber || 0) * ratio).toFixed(1) + 'g';
+      document.getElementById('est-sugar').innerText = ((product.nutritionPer100g.sugar || 0) * ratio).toFixed(1) + 'g';
+      document.getElementById('est-sodium').innerText = Math.round((product.nutritionPer100g.sodium || 0) * ratio) + 'mg';
+      document.getElementById('est-potassium').innerText = Math.round((product.nutritionPer100g.potassium || 0) * ratio) + 'mg';
+      document.getElementById('est-calcium').innerText = Math.round((product.nutritionPer100g.calcium || 0) * ratio) + 'mg';
+      document.getElementById('est-iron').innerText = Math.round((product.nutritionPer100g.iron || 0) * ratio) + 'mg';
+      document.getElementById('est-vita').innerText = Math.round((product.nutritionPer100g.vitaminA || 0) * ratio) + 'mcg';
+      document.getElementById('est-vitc').innerText = Math.round((product.nutritionPer100g.vitaminC || 0) * ratio) + 'mg';
+      
+      const bcaas = product.nutritionPer100g.aminoAcids || { leucine: 0, isoleucine: 0, valine: 0 };
+      document.getElementById('est-bcaa').innerText = `${(bcaas.leucine * ratio).toFixed(1)} / ${(bcaas.isoleucine * ratio).toFixed(1)} / ${(bcaas.valine * ratio).toFixed(1)} g`;
     }
 
     select.addEventListener('change', updateMacros);
     gramsInput.addEventListener('input', updateMacros);
     updateMacros(); // initial render
+
+    const toggleBtn = document.getElementById('toggle-advanced-btn');
+    const advancedDiv = document.getElementById('advanced-nutrition');
+    toggleBtn.addEventListener('click', () => {
+      if (advancedDiv.classList.contains('hidden')) {
+        advancedDiv.classList.remove('hidden');
+        toggleBtn.innerText = 'Hide Advanced Details';
+      } else {
+        advancedDiv.classList.add('hidden');
+        toggleBtn.innerText = 'Show Advanced Details';
+      }
+    });
 
     document.getElementById('close-serving-btn').addEventListener('click', () => {
       showSearchFoodModal(mealType); // Back to search
@@ -463,13 +511,28 @@
         const ratio = grams / 100;
         let finalServingName = select.value === 'custom' ? `${grams} grams` : select.options[select.selectedIndex].text;
         
+        const bcaas = product.nutritionPer100g.aminoAcids || { leucine: 0, isoleucine: 0, valine: 0 };
         logs.foods.push({
           name: product.name + ` (${finalServingName})`,
           amount: grams,
-          calories: Math.round(product.nutritionPer100g.calories * ratio),
-          protein: parseFloat((product.nutritionPer100g.protein * ratio).toFixed(1)),
-          carbs: parseFloat((product.nutritionPer100g.carbs * ratio).toFixed(1)),
-          fat: parseFloat((product.nutritionPer100g.fat * ratio).toFixed(1)),
+          calories: Math.round((product.nutritionPer100g.calories || 0) * ratio),
+          protein: parseFloat(((product.nutritionPer100g.protein || 0) * ratio).toFixed(1)),
+          carbs: parseFloat(((product.nutritionPer100g.carbs || 0) * ratio).toFixed(1)),
+          fat: parseFloat(((product.nutritionPer100g.fat || 0) * ratio).toFixed(1)),
+          fiber: parseFloat(((product.nutritionPer100g.fiber || 0) * ratio).toFixed(1)),
+          sugar: parseFloat(((product.nutritionPer100g.sugar || 0) * ratio).toFixed(1)),
+          sodium: Math.round((product.nutritionPer100g.sodium || 0) * ratio),
+          potassium: Math.round((product.nutritionPer100g.potassium || 0) * ratio),
+          calcium: Math.round((product.nutritionPer100g.calcium || 0) * ratio),
+          iron: Math.round((product.nutritionPer100g.iron || 0) * ratio),
+          vitaminA: Math.round((product.nutritionPer100g.vitaminA || 0) * ratio),
+          vitaminC: Math.round((product.nutritionPer100g.vitaminC || 0) * ratio),
+          vitaminD: Math.round((product.nutritionPer100g.vitaminD || 0) * ratio),
+          aminoAcids: {
+            leucine: parseFloat((bcaas.leucine * ratio).toFixed(2)),
+            isoleucine: parseFloat((bcaas.isoleucine * ratio).toFixed(2)),
+            valine: parseFloat((bcaas.valine * ratio).toFixed(2))
+          },
           mealType
         });
         localStorage.setItem('nutrify_logs', JSON.stringify(logs));
@@ -667,7 +730,21 @@
           calories: Math.round(((data.calories || 0) / (data.grams || 100)) * 100) || 0,
           protein: parseFloat((((data.protein || 0) / (data.grams || 100)) * 100).toFixed(1)),
           carbs: parseFloat((((data.carbs || 0) / (data.grams || 100)) * 100).toFixed(1)),
-          fat: parseFloat((((data.fat || 0) / (data.grams || 100)) * 100).toFixed(1))
+          fat: parseFloat((((data.fat || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          fiber: parseFloat((((data.fiber || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          sugar: parseFloat((((data.sugar || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          sodium: parseFloat((((data.sodium || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          potassium: parseFloat((((data.potassium || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          calcium: parseFloat((((data.calcium || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          iron: parseFloat((((data.iron || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          vitaminA: parseFloat((((data.vitaminA || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          vitaminC: parseFloat((((data.vitaminC || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          vitaminD: parseFloat((((data.vitaminD || 0) / (data.grams || 100)) * 100).toFixed(1)),
+          aminoAcids: data.aminoAcids ? {
+            leucine: parseFloat((((data.aminoAcids.leucine || 0) / (data.grams || 100)) * 100).toFixed(2)),
+            isoleucine: parseFloat((((data.aminoAcids.isoleucine || 0) / (data.grams || 100)) * 100).toFixed(2)),
+            valine: parseFloat((((data.aminoAcids.valine || 0) / (data.grams || 100)) * 100).toFixed(2))
+          } : { leucine: 0, isoleucine: 0, valine: 0 }
         }
       };
 
@@ -751,7 +828,21 @@
             calories: Math.round(((data.calories || 0) / (data.grams || 100)) * 100) || 0,
             protein: parseFloat((((data.protein || 0) / (data.grams || 100)) * 100).toFixed(1)),
             carbs: parseFloat((((data.carbs || 0) / (data.grams || 100)) * 100).toFixed(1)),
-            fat: parseFloat((((data.fat || 0) / (data.grams || 100)) * 100).toFixed(1))
+            fat: parseFloat((((data.fat || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            fiber: parseFloat((((data.fiber || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            sugar: parseFloat((((data.sugar || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            sodium: parseFloat((((data.sodium || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            potassium: parseFloat((((data.potassium || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            calcium: parseFloat((((data.calcium || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            iron: parseFloat((((data.iron || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            vitaminA: parseFloat((((data.vitaminA || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            vitaminC: parseFloat((((data.vitaminC || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            vitaminD: parseFloat((((data.vitaminD || 0) / (data.grams || 100)) * 100).toFixed(1)),
+            aminoAcids: data.aminoAcids ? {
+              leucine: parseFloat((((data.aminoAcids.leucine || 0) / (data.grams || 100)) * 100).toFixed(2)),
+              isoleucine: parseFloat((((data.aminoAcids.isoleucine || 0) / (data.grams || 100)) * 100).toFixed(2)),
+              valine: parseFloat((((data.aminoAcids.valine || 0) / (data.grams || 100)) * 100).toFixed(2))
+            } : { leucine: 0, isoleucine: 0, valine: 0 }
           }
         };
 

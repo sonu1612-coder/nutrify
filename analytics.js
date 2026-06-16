@@ -16,7 +16,14 @@
       // Archive previous day
       let history = JSON.parse(localStorage.getItem('nutrify_history')) || {};
       const cals = Math.round(logs.foods.reduce((acc, f) => acc + f.calories, 0));
-      history[logs.date] = { calories: cals, waterCups: logs.waterCups || 0 };
+      const iron = Math.round(logs.foods.reduce((acc, f) => acc + (f.iron || 0), 0));
+      const vitC = Math.round(logs.foods.reduce((acc, f) => acc + (f.vitaminC || 0), 0));
+      const calcium = Math.round(logs.foods.reduce((acc, f) => acc + (f.calcium || 0), 0));
+      history[logs.date] = { 
+        calories: cals, 
+        waterCups: logs.waterCups || 0,
+        iron, vitC, calcium
+      };
       localStorage.setItem('nutrify_history', JSON.stringify(history));
     }
     logs = {
@@ -63,6 +70,61 @@
 
   const chartDays = displayData.slice(-7);
   const maxVal = Math.max(...chartDays.map(d => d.val), profile.targets.calories, 2000);
+
+  // Analyze last 7 days for deficiencies
+  let totalIron = 0, totalVitC = 0, totalCalcium = 0;
+  let daysCount = last7Dates.length;
+  if (daysCount > 0) {
+    last7Dates.forEach(d => {
+      totalIron += history[d].iron || 0;
+      totalVitC += history[d].vitC || 0;
+      totalCalcium += history[d].calcium || 0;
+    });
+  }
+  // Add today's
+  totalIron += logs.foods.reduce((a, f) => a + (f.iron || 0), 0);
+  totalVitC += logs.foods.reduce((a, f) => a + (f.vitaminC || 0), 0);
+  totalCalcium += logs.foods.reduce((a, f) => a + (f.calcium || 0), 0);
+  daysCount += 1; // Include today
+  
+  const avgIron = totalIron / daysCount;
+  const avgVitC = totalVitC / daysCount;
+  const avgCalcium = totalCalcium / daysCount;
+  
+  let deficiencyHtml = '';
+  const deficiencies = [];
+  
+  if (avgIron < 10) deficiencies.push({ icon: 'bloodtype', title: 'Iron Deficiency', desc: `Averaging ${avgIron.toFixed(1)}mg/day (Target: ~18mg). Consider adding spinach, lentils, or red meat.` });
+  if (avgVitC < 50) deficiencies.push({ icon: 'nutrition', title: 'Vitamin C Deficiency', desc: `Averaging ${avgVitC.toFixed(1)}mg/day (Target: ~90mg). Eat more citrus, kiwi, or take a supplement.` });
+  if (avgCalcium < 600) deficiencies.push({ icon: 'bone', title: 'Calcium Deficiency', desc: `Averaging ${avgCalcium.toFixed(1)}mg/day (Target: ~1000mg). Consider dairy, fortified milks, or a supplement.` });
+  
+  if (deficiencies.length > 0) {
+    deficiencyHtml = `
+      <section class="bg-error-container/20 rounded-xl p-6 shadow-sm border border-error/30 mt-6 custom-shadow">
+        <h3 class="text-title-lg font-bold text-error mb-4 flex items-center gap-2"><span class="material-symbols-outlined">warning</span> Nutrient Deficiencies Detected</h3>
+        <p class="text-xs text-on-surface-variant font-medium mb-4">Based on your past ${daysCount} days of logs, we've identified some missing micronutrients:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          ${deficiencies.map(d => `
+            <div class="bg-surface rounded-xl p-4 border border-outline-variant/30 flex gap-3 shadow-sm">
+              <div class="bg-error/10 p-2 rounded-lg text-error h-fit flex items-center justify-center"><span class="material-symbols-outlined">${d.icon}</span></div>
+              <div>
+                <h4 class="text-sm font-bold text-on-surface">${d.title}</h4>
+                <p class="text-[10px] text-on-surface-variant mt-1 leading-relaxed">${d.desc}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    `;
+  } else {
+    deficiencyHtml = `
+      <section class="bg-primary-container/20 rounded-xl p-6 shadow-sm border border-primary/30 mt-6 custom-shadow flex flex-col items-center justify-center text-center">
+        <span class="material-symbols-outlined text-4xl text-primary mb-2">verified</span>
+        <h3 class="text-title-md font-bold text-primary mb-1">Nutrition On Track</h3>
+        <p class="text-xs text-on-surface-variant">Your weekly average for essential vitamins and minerals looks great!</p>
+      </section>
+    `;
+  }
 
   const analyticsContent = document.getElementById('analytics-content');
   analyticsContent.innerHTML = `
@@ -159,6 +221,8 @@
           </div>
         </div>
       </section>
+      
+      ${deficiencyHtml}
     </div>
   `;
 

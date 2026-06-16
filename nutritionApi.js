@@ -334,7 +334,21 @@
                       calories: Math.round(calories) || 0,
                       protein: parseFloat(nutriments.proteins_100g || 0),
                       carbs: parseFloat(nutriments.carbohydrates_100g || 0),
-                      fat: parseFloat(nutriments.fat_100g || 0)
+                      fat: parseFloat(nutriments.fat_100g || 0),
+                      fiber: parseFloat(nutriments.fiber_100g || 0),
+                      sugar: parseFloat(nutriments.sugars_100g || 0),
+                      sodium: parseFloat(nutriments.sodium_100g || 0) * 1000, // Convert to mg
+                      potassium: parseFloat(nutriments.potassium_100g || 0) * 1000,
+                      calcium: parseFloat(nutriments.calcium_100g || 0) * 1000,
+                      iron: parseFloat(nutriments.iron_100g || 0) * 1000,
+                      vitaminA: parseFloat(nutriments.vitamin_a_100g || 0) * 1000000, // Convert to mcg
+                      vitaminC: parseFloat(nutriments.vitamin_c_100g || 0) * 1000,
+                      vitaminD: parseFloat(nutriments.vitamin_d_100g || 0) * 1000000,
+                      aminoAcids: {
+                        leucine: 0,
+                        isoleucine: 0,
+                        valine: 0
+                      }
                     }
                   };
                 });
@@ -384,7 +398,21 @@
                 calories: Math.round(calories) || 0,
                 protein: parseFloat(nutriments.proteins_100g || 0),
                 carbs: parseFloat(nutriments.carbohydrates_100g || 0),
-                fat: parseFloat(nutriments.fat_100g || 0)
+                fat: parseFloat(nutriments.fat_100g || 0),
+                fiber: parseFloat(nutriments.fiber_100g || 0),
+                sugar: parseFloat(nutriments.sugars_100g || 0),
+                sodium: parseFloat(nutriments.sodium_100g || 0) * 1000,
+                potassium: parseFloat(nutriments.potassium_100g || 0) * 1000,
+                calcium: parseFloat(nutriments.calcium_100g || 0) * 1000,
+                iron: parseFloat(nutriments.iron_100g || 0) * 1000,
+                vitaminA: parseFloat(nutriments.vitamin_a_100g || 0) * 1000000,
+                vitaminC: parseFloat(nutriments.vitamin_c_100g || 0) * 1000,
+                vitaminD: parseFloat(nutriments.vitamin_d_100g || 0) * 1000000,
+                aminoAcids: {
+                  leucine: 0,
+                  isoleucine: 0,
+                  valine: 0
+                }
               }
             };
           }

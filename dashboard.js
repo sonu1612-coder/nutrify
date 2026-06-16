@@ -15,7 +15,14 @@
     if (logs && logs.date) {
       let history = JSON.parse(localStorage.getItem('nutrify_history')) || {};
       const cals = Math.round(logs.foods.reduce((acc, f) => acc + f.calories, 0));
-      history[logs.date] = { calories: cals, waterCups: logs.waterCups || 0 };
+      const iron = Math.round(logs.foods.reduce((acc, f) => acc + (f.iron || 0), 0));
+      const vitC = Math.round(logs.foods.reduce((acc, f) => acc + (f.vitaminC || 0), 0));
+      const calcium = Math.round(logs.foods.reduce((acc, f) => acc + (f.calcium || 0), 0));
+      history[logs.date] = { 
+        calories: cals, 
+        waterCups: logs.waterCups || 0,
+        iron, vitC, calcium
+      };
       localStorage.setItem('nutrify_history', JSON.stringify(history));
     }
     logs = {

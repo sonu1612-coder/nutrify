@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
         content: [
           {
             type: "text",
-            text: "Analyze this image of food. Identify the primary food item, estimate the serving size in grams, and calculate the approximate nutritional values. Respond ONLY with a valid JSON object in this exact format: {\"name\": \"Food Name\", \"grams\": 100, \"calories\": 250, \"protein\": 10, \"carbs\": 20, \"fat\": 5}. If you cannot clearly recognize any food in the image, return EXACTLY this JSON: {\"unknown\": true}. Do not include any other text or markdown."
+            text: "Analyze this image of food. Identify the primary food item, estimate the serving size in grams, and calculate the approximate nutritional values including vitamins, minerals, and essential BCAAs. Respond ONLY with a valid JSON object in this exact format: {\"name\": \"Food Name\", \"grams\": 100, \"calories\": 250, \"protein\": 10, \"carbs\": 20, \"fat\": 5, \"fiber\": 3, \"sugar\": 5, \"sodium\": 200, \"potassium\": 300, \"calcium\": 50, \"iron\": 2, \"vitaminA\": 100, \"vitaminC\": 10, \"vitaminD\": 0, \"aminoAcids\": {\"leucine\": 0.8, \"isoleucine\": 0.4, \"valine\": 0.5}}. Values can be 0. If you cannot clearly recognize any food in the image, return EXACTLY this JSON: {\"unknown\": true}. Do not include any other text or markdown."
           },
           {
             type: "image_url",

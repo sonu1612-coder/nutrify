@@ -16,7 +16,7 @@ module.exports = async function handler(req, res) {
     messages: [
       {
         role: "user",
-        content: `You are a nutrition database. Provide the estimated nutritional values for 100 grams of "${foodName}". Respond ONLY with a valid JSON object in this exact format: {"name": "${foodName}", "grams": 100, "calories": 250, "protein": 10, "carbs": 20, "fat": 5}. Do not include any other text, markdown formatting, or explanation. Just the JSON object.`
+        content: `You are an advanced nutrition database. Provide the estimated nutritional values for 100 grams of "${foodName}", including vitamins, minerals, and BCAAs. Respond ONLY with a valid JSON object in this exact format: {"name": "${foodName}", "grams": 100, "calories": 250, "protein": 10, "carbs": 20, "fat": 5, "fiber": 3, "sugar": 5, "sodium": 200, "potassium": 300, "calcium": 50, "iron": 2, "vitaminA": 100, "vitaminC": 10, "vitaminD": 0, "aminoAcids": {"leucine": 0.8, "isoleucine": 0.4, "valine": 0.5}}. Values can be 0. Do not include any other text, markdown formatting, or explanation. Just the JSON object.`
       }
     ],
     temperature: 0.1,
