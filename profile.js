@@ -492,8 +492,17 @@
 
       document.getElementById('log-out-btn')?.addEventListener('click', async () => {
         if (confirm('Are you sure you want to log out?')) {
+          if (window.freezeCurrentAccount) window.freezeCurrentAccount();
           if (window.supabaseClient) await window.supabaseClient.auth.signOut();
-          localStorage.clear();
+          
+          // Clear active user session data but keep all accounts intact
+          localStorage.removeItem('nutrify_account');
+          localStorage.removeItem('nutrify_profile');
+          localStorage.removeItem('nutrify_db_profile');
+          localStorage.removeItem('nutrify_logs');
+          localStorage.removeItem('nutrify_chat');
+          localStorage.removeItem('nutrify_history');
+          
           window.location.replace('index.html');
         }
       });

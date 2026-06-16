@@ -63,7 +63,7 @@
             <label class="text-sm font-semibold text-on-surface" for="full_name">Full Name</label>
             <div class="relative group">
               <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">person</span>
-              <input class="w-full pl-12 pr-4 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="full_name" name="name" autocomplete="name" placeholder="John Doe" type="text" value="Daksh Choudhary" required>
+              <input class="w-full pl-12 pr-4 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="full_name" name="name" autocomplete="name" placeholder="John Doe" type="text" required>
             </div>
           </div>
           <!-- Email Field -->
@@ -71,7 +71,7 @@
             <label class="text-sm font-semibold text-on-surface" for="email">Email Address</label>
             <div class="relative group">
               <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">mail</span>
-              <input class="w-full pl-12 pr-4 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="email" name="email" autocomplete="email" placeholder="john@example.com" type="email" value="dakshchoudhary160@gmail.com" required>
+              <input class="w-full pl-12 pr-4 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="email" name="email" autocomplete="email" placeholder="john@example.com" type="email" required>
             </div>
           </div>
           <!-- Password Field -->
@@ -79,7 +79,7 @@
             <label class="text-sm font-semibold text-on-surface" for="password">Password</label>
             <div class="relative group">
               <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">lock</span>
-              <input class="w-full pl-12 pr-12 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="password" name="password" autocomplete="new-password" placeholder="••••••••" type="password" minlength="8" value="hello123" required>
+              <input class="w-full pl-12 pr-12 py-3 bg-surface-variant border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-on-surface placeholder:text-on-surface-variant" id="password" name="password" autocomplete="new-password" placeholder="••••••••" type="password" minlength="8" required>
               <button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" type="button" onclick="togglePassword()">
                 <span id="password-toggle-icon" class="material-symbols-outlined">visibility</span>
               </button>
@@ -174,13 +174,16 @@
         if (error.message.toLowerCase().includes('rate limit') || error.message.toLowerCase().includes('exceed')) {
           console.warn("Rate limit detected: Bypassing auth for Developer Offline Mode.");
           localStorage.setItem('nutrify_account', JSON.stringify({ name, email }));
+          if (window.thawAccount) window.thawAccount(email);
           showToastAndRedirect();
         } else if (confirm("Supabase Error: " + error.message + "\n\nWould you like to bypass authentication and enter Developer Offline Mode to test the UI?")) {
           localStorage.setItem('nutrify_account', JSON.stringify({ name, email }));
+          if (window.thawAccount) window.thawAccount(email);
           showToastAndRedirect();
         }
       } else {
         localStorage.setItem('nutrify_account', JSON.stringify({ name, email }));
+        if (window.thawAccount) window.thawAccount(email);
         showToastAndRedirect();
       }
     });
