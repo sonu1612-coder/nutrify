@@ -85,8 +85,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       const isUser = m.sender === 'user';
       if (isUser) {
         html += `
-          <div class="flex justify-end my-3 fade-in">
-            <div class="bg-primary text-black p-4 rounded-2xl rounded-br-sm max-w-[80%] shadow-sm">
+          <div class="flex justify-end my-3 fade-in group items-center gap-2">
+            <button onclick="deleteSupportMessage('${m.id}')" class="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 text-error hover:bg-error-container hover:text-error rounded-full flex-shrink-0 active:scale-90 cursor-pointer">
+              <span class="material-symbols-outlined text-sm">delete</span>
+            </button>
+            <div class="bg-primary text-black p-4 rounded-2xl rounded-br-sm max-w-[80%] shadow-sm relative">
               <p class="text-body-md">${escapeHtml(m.message)}</p>
               <span class="text-[10px] mt-1.5 block opacity-60 text-right font-medium">${formatTime(new Date(m.created_at))}</span>
             </div>
@@ -94,11 +97,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
       } else {
         html += `
-          <div class="flex justify-start my-3 fade-in">
-            <div class="bg-surface-container text-on-surface p-4 rounded-2xl rounded-tl-sm max-w-[80%] shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-outline-variant/10">
+          <div class="flex justify-start my-3 fade-in group items-center gap-2">
+            <div class="bg-surface-container text-on-surface p-4 rounded-2xl rounded-tl-sm max-w-[80%] shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-outline-variant/10 relative">
               <p class="text-body-md">${escapeHtml(m.message)}</p>
               <span class="text-[10px] mt-1.5 block text-outline font-medium">${formatTime(new Date(m.created_at))}</span>
             </div>
+            <button onclick="deleteSupportMessage('${m.id}')" class="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 text-error hover:bg-error-container hover:text-error rounded-full flex-shrink-0 active:scale-90 cursor-pointer">
+              <span class="material-symbols-outlined text-sm">delete</span>
+            </button>
           </div>
         `;
       }
@@ -220,4 +226,40 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   loadMessages();
+
+  window.deleteSupportMessage = async function(id) {
+    if (!confirm('Delete this message?')) return;
+    
+    // Remove locally for instant feedback
+    allMessages = allMessages.filter(m => m.id !== id);
+    renderMessages();
+    
+    // Remote DB
+    if (user && window.supabaseClient) {
+      try {
+        await window.supabaseClient.from('support_messages').delete().eq('id', id);
+      } catch(e) {
+        console.warn("Could not delete from DB", e);
+      }
+    }
+  };
+
+  const clearBtn = document.getElementById('clear-support-chat-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', async () => {
+      if (confirm('Clear entire support chat? This cannot be undone.')) {
+        // Clear DB
+        if (user && window.supabaseClient) {
+          try {
+            await window.supabaseClient.from('support_messages').delete().eq('user_id', user.id);
+          } catch(e) {
+            console.warn("Could not wipe DB", e);
+          }
+        }
+        allMessages = [];
+        renderMessages();
+      }
+    });
+  }
+
 });

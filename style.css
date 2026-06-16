@@ -4,6 +4,7 @@
 
 body {
   font-family: 'Hanken Grotesk', sans-serif;
+  overscroll-behavior-y: none;
   background-color: #F8FAF9;
   color: #0B0B0B;
   -webkit-font-smoothing: antialiased;

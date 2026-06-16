@@ -42,50 +42,141 @@
   }
 
   // Load chat logs from storage
-  let chatHistory = JSON.parse(localStorage.getItem('nutrify_chat')) || [
-    { text: "Hi! I'm your Nutrify Guide. I have reviewed your target parameters. How can I help you reach your goals today?", isUser: false }
-  ];
-
+  let chatHistory = [];
+  let userAuth = null;
   const chatWindow = document.getElementById('chat-window');
   const chatInput = document.getElementById('chat-input');
   const chatSendBtn = document.getElementById('chat-send-btn');
   const clearChatBtn = document.getElementById('clear-chat-btn');
 
   // Draw chat bubbles
-  function renderChatBubble(text, isUser = false) {
+  function renderChatBubble(msgObj) {
+    const isUser = msgObj.isUser;
+    const msgId = msgObj.id;
+    const text = msgObj.text;
+    
     const wrapper = document.createElement('div');
-    wrapper.className = `flex flex-col ${isUser ? 'items-end ml-auto' : 'items-start'} max-w-[85%] fade-in`;
+    wrapper.className = `flex flex-col ${isUser ? 'items-end ml-auto' : 'items-start'} max-w-[85%] fade-in group w-full`;
+    wrapper.id = msgId ? `msg-${msgId}` : '';
+
+    const row = document.createElement('div');
+    row.className = `flex items-center gap-2 w-full ${isUser ? 'justify-end' : 'justify-start'}`;
 
     const container = document.createElement('div');
-    container.className = `p-4 rounded-2xl ${
+    container.className = `p-4 rounded-2xl relative ${
       isUser 
         ? 'bg-primary text-white rounded-tr-none shadow-sm' 
         : 'bg-white text-on-background border border-outline-variant/20 rounded-tl-none shadow-sm border-l-4 border-l-primary'
-    }`;
+    } max-w-[90%] break-words`;
 
-    const p = document.createElement('p');
-    p.className = 'text-body-md leading-relaxed';
-    p.innerText = text;
+    // Markdown simple bold parser
+    container.innerHTML = `<p class="text-body-md leading-relaxed whitespace-pre-wrap">${text.replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')}</p>`;
 
-    container.appendChild(p);
+    const delBtn = document.createElement('button');
+    delBtn.className = `opacity-0 group-hover:opacity-100 transition-opacity p-1.5 text-error hover:bg-error-container hover:text-error rounded-full flex-shrink-0 active:scale-90 cursor-pointer`;
+    delBtn.innerHTML = `<span class="material-symbols-outlined text-sm">delete</span>`;
+    delBtn.onclick = () => window.deleteMessage(msgId);
+
+    if (isUser) {
+      if (msgId) row.appendChild(delBtn);
+      row.appendChild(container);
+    } else {
+      row.appendChild(container);
+      if (msgId) row.appendChild(delBtn);
+    }
 
     const timestamp = document.createElement('span');
-    timestamp.className = 'text-[10px] text-outline mt-1 px-1';
-    timestamp.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    timestamp.className = `text-[10px] text-outline mt-1 px-1 ${isUser ? 'text-right' : 'text-left'}`;
+    timestamp.innerText = msgObj.created_at ? new Date(msgObj.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    wrapper.appendChild(container);
+    wrapper.appendChild(row);
     wrapper.appendChild(timestamp);
 
     chatWindow.appendChild(wrapper);
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }
 
-  // Load full history
   function renderChatHistory() {
     chatWindow.innerHTML = '';
     chatHistory.forEach(msg => {
-      renderChatBubble(msg.text, msg.isUser);
+      renderChatBubble(msg);
     });
+  }
+
+  window.deleteMessage = async function(id) {
+    if (!id) return;
+    if (!confirm('Delete this message?')) return;
+    
+    // Remove locally
+    chatHistory = chatHistory.filter(m => m.id !== id);
+    localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
+    renderChatHistory();
+
+    // Remove from DB (ai_messages) if table exists
+    if (userAuth && window.supabaseClient) {
+      try {
+        await window.supabaseClient.from('ai_messages').delete().eq('id', id);
+      } catch (e) {
+        console.error("Failed to delete from DB", e);
+      }
+    }
+  };
+
+  async function initChat() {
+    let localChats = JSON.parse(localStorage.getItem('nutrify_chat')) || [];
+    
+    if (window.supabaseClient) {
+      try {
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (session) {
+          userAuth = session.user;
+          const { data, error } = await window.supabaseClient
+            .from('ai_messages')
+            .select('*')
+            .eq('user_id', userAuth.id)
+            .order('created_at', { ascending: true });
+            
+          if (!error && data) {
+            if (data.length > 0) {
+              chatHistory = data.map(m => ({ id: m.id, text: m.message, isUser: m.sender === 'user', created_at: m.created_at }));
+              localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
+            } else {
+              chatHistory = localChats;
+            }
+          } else {
+             chatHistory = localChats;
+          }
+        } else {
+          chatHistory = localChats;
+        }
+      } catch (e) {
+        console.error("DB chat fetch error:", e);
+        chatHistory = localChats;
+      }
+    } else {
+      chatHistory = localChats;
+    }
+
+    if (chatHistory.length === 0) {
+      const defaultMsg = { id: 'local-' + Date.now(), text: "Hi! I'm your Nutrify Guide. I have reviewed your target parameters. How can I help you reach your goals today?", isUser: false, created_at: new Date().toISOString() };
+      chatHistory = [defaultMsg];
+      localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
+      if (userAuth && window.supabaseClient) {
+         window.supabaseClient.from('ai_messages').insert([{
+           user_id: userAuth.id,
+           user_email: userAuth.email,
+           sender: 'ai',
+           message: defaultMsg.text
+         }]).select().then(({data}) => {
+            if (data && data[0]) {
+               chatHistory[0].id = data[0].id;
+               localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
+            }
+         }).catch(e => console.warn(e));
+      }
+    }
+    
+    renderChatHistory();
   }
 
   // Add a temporary loading bubble
@@ -187,10 +278,30 @@ ${JSON.stringify(historyData).substring(0, 500)} // Providing a summarized view 
     const msg = text || chatInput.value;
     if (!msg.trim()) return;
 
-    renderChatBubble(msg, true);
-    chatHistory.push({ text: msg, isUser: true });
+    const userMsgObj = { id: 'local-u-' + Date.now(), text: msg, isUser: true, created_at: new Date().toISOString() };
+    chatHistory.push(userMsgObj);
     localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
+    renderChatBubble(userMsgObj);
     chatInput.value = '';
+
+    // Insert to DB
+    if (userAuth && window.supabaseClient) {
+      window.supabaseClient.from('ai_messages').insert([{
+        user_id: userAuth.id,
+        user_email: userAuth.email,
+        sender: 'user',
+        message: msg
+      }]).select().then(({data}) => {
+         if (data && data[0]) {
+            const index = chatHistory.findIndex(m => m.id === userMsgObj.id);
+            if (index !== -1) {
+              chatHistory[index].id = data[0].id;
+              localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
+              renderChatHistory();
+            }
+         }
+      }).catch(e => console.warn(e));
+    }
 
     renderLoadingBubble();
 
@@ -198,16 +309,43 @@ ${JSON.stringify(historyData).substring(0, 500)} // Providing a summarized view 
     
     removeLoadingBubble();
     
-    // Format response (replace markdown newlines with HTML breaks for simple rendering if needed)
-    renderChatBubble(responseText, false);
-    chatHistory.push({ text: responseText, isUser: false });
+    const aiMsgObj = { id: 'local-a-' + Date.now(), text: responseText, isUser: false, created_at: new Date().toISOString() };
+    chatHistory.push(aiMsgObj);
     localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
+    renderChatBubble(aiMsgObj);
+
+    if (userAuth && window.supabaseClient) {
+      window.supabaseClient.from('ai_messages').insert([{
+        user_id: userAuth.id,
+        user_email: userAuth.email,
+        sender: 'ai',
+        message: responseText
+      }]).select().then(({data}) => {
+         if (data && data[0]) {
+            const index = chatHistory.findIndex(m => m.id === aiMsgObj.id);
+            if (index !== -1) {
+              chatHistory[index].id = data[0].id;
+              localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
+              renderChatHistory();
+            }
+         }
+      }).catch(e => console.warn(e));
+    }
   }
 
   // Clear chat
-  clearChatBtn.addEventListener('click', () => {
-    if (confirm('Clear chat history?')) {
-      chatHistory = [{ text: "Hi! Guide is online. Ask me anything about your nutrition goals.", isUser: false }];
+  clearChatBtn.addEventListener('click', async () => {
+    if (confirm('Clear entire chat history? This cannot be undone.')) {
+      if (userAuth && window.supabaseClient) {
+        try {
+          await window.supabaseClient.from('ai_messages').delete().eq('user_id', userAuth.id);
+        } catch(e) {
+          console.warn("Could not wipe remote DB", e);
+        }
+      }
+      
+      const defaultMsg = { id: 'local-' + Date.now(), text: "Hi! Guide is online. Ask me anything about your nutrition goals.", isUser: false, created_at: new Date().toISOString() };
+      chatHistory = [defaultMsg];
       localStorage.setItem('nutrify_chat', JSON.stringify(chatHistory));
       renderChatHistory();
     }
@@ -226,7 +364,7 @@ ${JSON.stringify(historyData).substring(0, 500)} // Providing a summarized view 
     });
   });
 
-  renderChatHistory();
+  initChat();
 
   // Notification button action
   document.getElementById('noti-btn').addEventListener('click', () => {
