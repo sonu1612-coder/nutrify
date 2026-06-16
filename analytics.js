@@ -12,35 +12,25 @@
   const today = new Date().toISOString().split('T')[0];
   let logs = JSON.parse(localStorage.getItem('nutrify_logs'));
   if (!logs || logs.date !== today) {
+    if (logs && logs.date) {
+      // Archive previous day
+      let history = JSON.parse(localStorage.getItem('nutrify_history')) || {};
+      const cals = Math.round(logs.foods.reduce((acc, f) => acc + f.calories, 0));
+      history[logs.date] = { calories: cals, waterCups: logs.waterCups || 0 };
+      localStorage.setItem('nutrify_history', JSON.stringify(history));
+    }
     logs = {
       date: today,
       foods: [],
       waterCups: 0
     };
+    localStorage.setItem('nutrify_logs', JSON.stringify(logs));
   }
 
   // Load history state
   let history = JSON.parse(localStorage.getItem('nutrify_history')) || {};
 
-  // Populate mock data if history is empty
-  if (Object.keys(history).length === 0) {
-    const todayObj = new Date();
-    const baseCal = profile.targets.calories;
-    for (let i = 7; i > 0; i--) {
-      const d = new Date(todayObj);
-      d.setDate(todayObj.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
-      
-      const randCal = Math.round(baseCal - 400 + Math.random() * 600);
-      const randWater = Math.round(2 + Math.random() * 6);
-      
-      history[dateStr] = {
-        calories: randCal,
-        waterCups: randWater
-      };
-    }
-    localStorage.setItem('nutrify_history', JSON.stringify(history));
-  }
+  // No mock data - only use real history
 
   // Update avatar
   const avatarImg = document.getElementById('header-avatar');

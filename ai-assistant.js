@@ -12,11 +12,18 @@
   const today = new Date().toISOString().split('T')[0];
   let logs = JSON.parse(localStorage.getItem('nutrify_logs'));
   if (!logs || logs.date !== today) {
+    if (logs && logs.date) {
+      let history = JSON.parse(localStorage.getItem('nutrify_history')) || {};
+      const cals = Math.round(logs.foods.reduce((acc, f) => acc + f.calories, 0));
+      history[logs.date] = { calories: cals, waterCups: logs.waterCups || 0 };
+      localStorage.setItem('nutrify_history', JSON.stringify(history));
+    }
     logs = {
       date: today,
       foods: [],
       waterCups: 0
     };
+    localStorage.setItem('nutrify_logs', JSON.stringify(logs));
   }
 
   // Update avatar
