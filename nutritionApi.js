@@ -4,250 +4,45 @@
 (function() {
   // Offline Safe-Zone: Essential Indian & Generic Foods
   const LOCAL_FOOD_DB = {
-    "roti": {
-      name: "Roti / Chapati (Wheat)",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 medium (30g)", grams: 30 },
-        { serving: "1 large (45g)", grams: 45 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 264, protein: 8.0, carbs: 55.0, fat: 1.5 }
-    },
-    "rice": {
-      name: "White Rice (Cooked)",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 Katori / Bowl (150g)", grams: 150 },
-        { serving: "1 Plate (300g)", grams: 300 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 130, protein: 2.7, carbs: 28, fat: 0.3 }
-    },
-    "dal": {
-      name: "Dal Tadka (Lentils)",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 Katori / Bowl (150g)", grams: 150 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 120, protein: 6.0, carbs: 18.0, fat: 2.5 }
-    },
-    "egg": {
-      name: "Whole Egg (Boiled)",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 large egg (50g)", grams: 50 },
-        { serving: "2 large eggs (100g)", grams: 100 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 155, protein: 13, carbs: 1.1, fat: 11 }
-    },
-    "milk": {
-      name: "Whole Milk",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 glass (250ml)", grams: 250 },
-        { serving: "1 cup (150ml)", grams: 150 },
-        { serving: "100 ml", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 60, protein: 3.2, carbs: 4.8, fat: 3.3 }
-    },
-    "banana": {
-      name: "Banana",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 medium (118g)", grams: 118 },
-        { serving: "1 large (136g)", grams: 136 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 89, protein: 1.1, carbs: 22.8, fat: 0.3 }
-    },
-    "chicken breast": {
-      name: "Chicken Breast (Cooked)",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 small piece (100g)", grams: 100 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 165, protein: 31, carbs: 0, fat: 3.6 }
-    },
-    "paneer": {
-      name: "Paneer (Cottage Cheese)",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 cup cubed (150g)", grams: 150 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 265, protein: 18.0, carbs: 1.2, fat: 20.8 }
-    },
-    "apple": {
-      name: "Apple",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 medium (182g)", grams: 182 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 52, protein: 0.3, carbs: 13.8, fat: 0.2 }
-    },
-    "oats": {
-      name: "Oatmeal / Rolled Oats (Dry)",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 cup (40g)", grams: 40 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 389, protein: 16.9, carbs: 66.3, fat: 6.9 }
-    },
-    "idli": {
-      name: "Idli (Steamed Rice Cake)",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 medium piece (50g)", grams: 50 },
-        { serving: "2 pieces (100g)", grams: 100 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 112, protein: 3.2, carbs: 23.0, fat: 0.4 }
-    },
-    "samosa": {
-      name: "Samosa",
-      brand: "Street Food",
-      serving_options: [
-        { serving: "1 piece (70g)", grams: 70 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 262, protein: 4.5, carbs: 32.0, fat: 13.0 }
-    },
-    "poha": {
-      name: "Poha",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 Katori / Bowl (150g)", grams: 150 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 130, protein: 2.5, carbs: 25.0, fat: 1.5 }
-    },
-    "upma": {
-      name: "Upma",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 Katori / Bowl (150g)", grams: 150 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 140, protein: 3.5, carbs: 23.0, fat: 3.5 }
-    },
-    "tea": {
-      name: "Masala Chai (with milk & sugar)",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 cup (150ml)", grams: 150 },
-        { serving: "1 glass (250ml)", grams: 250 },
-        { serving: "100 ml", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 60, protein: 1.5, carbs: 10.0, fat: 1.5 }
-    },
-    "black tea": {
-      name: "Black Tea (Plain, no sugar)",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 cup (150ml)", grams: 150 },
-        { serving: "100 ml", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 2, protein: 0, carbs: 0.5, fat: 0 }
-    },
-    "cold coffee": {
-      name: "Cold Coffee (with milk & sugar)",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 glass (300ml)", grams: 300 },
-        { serving: "100 ml", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 85, protein: 3.0, carbs: 12.0, fat: 2.5 }
-    },
-    "lassi": {
-      name: "Sweet Lassi",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 glass (300ml)", grams: 300 },
-        { serving: "100 ml", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 75, protein: 3.5, carbs: 12.0, fat: 1.5 }
-    },
-    "sugar": {
-      name: "White Sugar",
-      brand: "Generic",
-      serving_options: [
-        { serving: "1 teaspoon (4g)", grams: 4 },
-        { serving: "1 tablespoon (12g)", grams: 12 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 387, protein: 0, carbs: 100, fat: 0 }
-    },
-    "puri": {
-      name: "Puri / Poori",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 medium puri (25g)", grams: 25 },
-        { serving: "2 puris (50g)", grams: 50 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 320, protein: 6.0, carbs: 42.0, fat: 15.0 }
-    },
-    "sabji": {
-      name: "Mixed Veg Sabji",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 Katori / Bowl (150g)", grams: 150 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 95, protein: 2.5, carbs: 12.0, fat: 4.5 }
-    },
-    "kaddu ki sabji": {
-      name: "Kaddu Ki Sabji (Pumpkin Curry)",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 Katori / Bowl (150g)", grams: 150 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 75, protein: 1.5, carbs: 10.0, fat: 3.5 }
-    },
-    "bhindi ki sabji": {
-      name: "Bhindi Ki Sabji (Okra/Ladyfinger)",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 Katori / Bowl (150g)", grams: 150 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 110, protein: 2.0, carbs: 10.0, fat: 7.0 }
-    },
-    "paratha": {
-      name: "Plain Paratha",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 medium (50g)", grams: 50 },
-        { serving: "1 large (80g)", grams: 80 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 330, protein: 7.5, carbs: 48.0, fat: 12.5 }
-    },
-    "naan": {
-      name: "Butter Naan",
-      brand: "Restaurant",
-      serving_options: [
-        { serving: "1 piece (90g)", grams: 90 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 310, protein: 9.0, carbs: 50.0, fat: 8.0 }
-    },
-    "palak paneer": {
-      name: "Palak Paneer",
-      brand: "Homemade",
-      serving_options: [
-        { serving: "1 Katori / Bowl (200g)", grams: 200 },
-        { serving: "100 grams", grams: 100 }
-      ],
-      nutritionPer100g: { calories: 140, protein: 7.0, carbs: 5.0, fat: 10.0 }
-    }
+    "roti": { name: "Roti / Chapati / Phulka", brand: "Homemade", serving_options: [{ serving: "1 medium (30g)", grams: 30 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 264, protein: 8.0, carbs: 55.0, fat: 1.5 } },
+    "rice": { name: "White Rice (Cooked)", brand: "Homemade", serving_options: [{ serving: "1 Katori / Bowl (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 130, protein: 2.7, carbs: 28, fat: 0.3 } },
+    "brown rice": { name: "Brown Rice (Cooked)", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 112, protein: 2.6, carbs: 24, fat: 0.9 } },
+    "dal": { name: "Dal Tadka (Lentils)", brand: "Homemade", serving_options: [{ serving: "1 Katori / Bowl (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 120, protein: 6.0, carbs: 18.0, fat: 2.5 } },
+    "curd": { name: "Curd / Dahi", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 98, protein: 3.5, carbs: 3.4, fat: 4.3 } },
+    "salad": { name: "Green Salad (Cucumber, Tomato, Onion)", brand: "Homemade", serving_options: [{ serving: "1 Plate (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 20, protein: 1.0, carbs: 4.0, fat: 0.2 } },
+    "rajma": { name: "Rajma Masala", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 140, protein: 5.5, carbs: 20.0, fat: 4.0 } },
+    "chole": { name: "Chole Masala (Chickpea Curry)", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 160, protein: 6.5, carbs: 22.0, fat: 5.0 } },
+    "poha": { name: "Poha", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 130, protein: 2.5, carbs: 25.0, fat: 1.5 } },
+    "aloo poha": { name: "Aloo Poha", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 145, protein: 2.6, carbs: 28.0, fat: 2.5 } },
+    "peanuts": { name: "Roasted Peanuts", brand: "Homemade", serving_options: [{ serving: "1 handful (30g)", grams: 30 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 567, protein: 25.8, carbs: 16.1, fat: 49.2 } },
+    "oats upma": { name: "Oats Upma", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 110, protein: 3.5, carbs: 18.0, fat: 2.5 } },
+    "upma": { name: "Rava Upma", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 140, protein: 3.5, carbs: 23.0, fat: 3.5 } },
+    "idli": { name: "Idli", brand: "Homemade", serving_options: [{ serving: "2 pieces (100g)", grams: 100 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 112, protein: 3.2, carbs: 23.0, fat: 0.4 } },
+    "sambar": { name: "Sambar", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 75, protein: 3.0, carbs: 11.0, fat: 1.5 } },
+    "coconut chutney": { name: "Coconut Chutney", brand: "Homemade", serving_options: [{ serving: "2 tablespoons (30g)", grams: 30 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 250, protein: 3.0, carbs: 10.0, fat: 23.0 } },
+    "moong dal chilla": { name: "Moong Dal Chilla", brand: "Homemade", serving_options: [{ serving: "1 Chilla (60g)", grams: 60 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 135, protein: 7.0, carbs: 18.0, fat: 3.5 } },
+    "mint chutney": { name: "Mint / Pudina Chutney", brand: "Homemade", serving_options: [{ serving: "2 tablespoons (30g)", grams: 30 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 45, protein: 1.5, carbs: 8.0, fat: 0.5 } },
+    "sprouts": { name: "Mixed Sprouts Salad", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 105, protein: 8.0, carbs: 18.0, fat: 0.5 } },
+    "veg paratha": { name: "Mix Veg Paratha", brand: "Homemade", serving_options: [{ serving: "1 medium (80g)", grams: 80 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 220, protein: 6.0, carbs: 32.0, fat: 8.0 } },
+    "stuffed paratha": { name: "Aloo / Stuffed Paratha", brand: "Homemade", serving_options: [{ serving: "1 medium (100g)", grams: 100 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 260, protein: 6.5, carbs: 38.0, fat: 9.0 } },
+    "fruit yogurt bowl": { name: "Fruit & Yogurt Bowl", brand: "Homemade", serving_options: [{ serving: "1 Bowl (200g)", grams: 200 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 85, protein: 3.5, carbs: 14.0, fat: 1.5 } },
+    "nuts": { name: "Mixed Nuts (Almonds, Walnuts)", brand: "Homemade", serving_options: [{ serving: "1 handful (30g)", grams: 30 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 600, protein: 20.0, carbs: 21.0, fat: 54.0 } },
+    "pulao": { name: "Veg Pulao / Quinoa", brand: "Homemade", serving_options: [{ serving: "1 Bowl (200g)", grams: 200 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 150, protein: 3.5, carbs: 28.0, fat: 2.5 } },
+    "mix veg": { name: "Mix Veg Sabji", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 95, protein: 2.5, carbs: 12.0, fat: 4.5 } },
+    "baingan bharta": { name: "Baingan Bharta", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 90, protein: 2.0, carbs: 10.0, fat: 5.0 } },
+    "lemon rice": { name: "Lemon Rice", brand: "Homemade", serving_options: [{ serving: "1 Bowl (200g)", grams: 200 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 160, protein: 3.0, carbs: 30.0, fat: 3.0 } },
+    "veg biryani": { name: "Veg Biryani", brand: "Homemade", serving_options: [{ serving: "1 Bowl (200g)", grams: 200 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 165, protein: 3.5, carbs: 28.0, fat: 4.0 } },
+    "khichdi": { name: "Vegetable Khichdi", brand: "Homemade", serving_options: [{ serving: "1 Bowl (200g)", grams: 200 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 110, protein: 3.5, carbs: 19.0, fat: 2.0 } },
+    "raita": { name: "Cucumber / Boondi Raita", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 70, protein: 3.0, carbs: 5.0, fat: 4.0 } },
+    "veg sandwich": { name: "Veg Sandwich", brand: "Homemade", serving_options: [{ serving: "1 Sandwich (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 220, protein: 6.0, carbs: 35.0, fat: 6.0 } },
+    "soup": { name: "Vegetable Soup", brand: "Homemade", serving_options: [{ serving: "1 Bowl (200g)", grams: 200 }, { serving: "100 ml", grams: 100 }], nutritionPer100g: { calories: 35, protein: 1.0, carbs: 6.0, fat: 0.5 } },
+    "palak paneer": { name: "Palak Paneer", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 140, protein: 7.0, carbs: 5.0, fat: 10.0 } },
+    "daliya": { name: "Vegetable Daliya", brand: "Homemade", serving_options: [{ serving: "1 Bowl (200g)", grams: 200 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 105, protein: 3.5, carbs: 20.0, fat: 1.5 } },
+    "paneer tikka": { name: "Paneer Tikka", brand: "Homemade", serving_options: [{ serving: "4 pieces (120g)", grams: 120 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 220, protein: 14.0, carbs: 4.0, fat: 16.0 } },
+    "poori": { name: "Puri / Poori", brand: "Homemade", serving_options: [{ serving: "2 puris (50g)", grams: 50 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 320, protein: 6.0, carbs: 42.0, fat: 15.0 } },
+    "puri": { name: "Puri / Poori", brand: "Homemade", serving_options: [{ serving: "2 puris (50g)", grams: 50 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 320, protein: 6.0, carbs: 42.0, fat: 15.0 } },
+    "kaddu": { name: "Kaddu Ki Sabji (Pumpkin Curry)", brand: "Homemade", serving_options: [{ serving: "1 Katori (150g)", grams: 150 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 75, protein: 1.5, carbs: 10.0, fat: 3.5 } },
+    "millet roti": { name: "Millet / Bajra / Jowar Roti", brand: "Homemade", serving_options: [{ serving: "1 medium (40g)", grams: 40 }, { serving: "100 grams", grams: 100 }], nutritionPer100g: { calories: 280, protein: 8.5, carbs: 55.0, fat: 3.0 } }
   };
 
   const NutritionAPI = {
@@ -294,7 +89,7 @@
           if (!error && data && data.length > 0) {
             const cloudMatches = data.map(dbItem => ({
               name: dbItem.name,
-              brand: dbItem.brand || "Cloud DB",
+              brand: "Generic",
               serving_options: dbItem.serving_options || [{ serving: "100 grams", grams: 100 }],
               nutritionPer100g: dbItem.nutrition_per_100g
             }));
@@ -326,7 +121,7 @@
 
                   return {
                     name: p.product_name,
-                    brand: p.brands || "OpenFoodFacts",
+                    brand: "Generic",
                     serving_options: [
                       { serving: "100 grams", grams: 100 }
                     ],
@@ -392,7 +187,7 @@
 
             return {
               name: p.product_name || p.product_name_en || "Unknown Product",
-              brand: p.brands || "",
+              brand: "Generic",
               serving_options: [{ serving: "100 grams", grams: 100 }],
               nutritionPer100g: {
                 calories: Math.round(calories) || 0,

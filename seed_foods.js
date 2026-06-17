@@ -15,7 +15,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 const bulkFoods = [
   {
     name: "Chole Bhature",
-    brand: "Indian Restaurant",
+    brand: "Homemade",
     category: "North Indian",
     serving_options: [
       { serving: "1 plate (2 bhature + chole)", grams: 350 },
@@ -25,7 +25,7 @@ const bulkFoods = [
   },
   {
     name: "Masala Dosa",
-    brand: "Generic",
+    brand: "Homemade",
     category: "South Indian",
     serving_options: [
       { serving: "1 medium dosa", grams: 120 },
@@ -36,7 +36,7 @@ const bulkFoods = [
   },
   {
     name: "Pani Puri",
-    brand: "Street Food",
+    brand: "Homemade",
     category: "Snacks",
     serving_options: [
       { serving: "1 plate (6 puris)", grams: 150 },
@@ -46,17 +46,25 @@ const bulkFoods = [
     nutrition_per_100g: { calories: 150, protein: 3, carbs: 20, fat: 6, fiber: 2 }
   },
   {
-    name: "Gulab Jamun",
-    brand: "Sweet",
-    category: "Desserts",
+    name: "Puri / Poori",
+    brand: "Homemade",
+    category: "Indian Breads",
     serving_options: [
-      { serving: "1 piece", grams: 40 },
-      { serving: "2 pieces", grams: 80 },
+      { serving: "2 puris (50g)", grams: 50 },
       { serving: "100 grams", grams: 100 }
     ],
-    nutrition_per_100g: { calories: 300, protein: 5, carbs: 50, fat: 10, fiber: 0 }
+    nutrition_per_100g: { calories: 320, protein: 6.0, carbs: 42.0, fat: 15.0, fiber: 2 }
+  },
+  {
+    name: "Kaddu Ki Sabji",
+    brand: "Homemade",
+    category: "Curries",
+    serving_options: [
+      { serving: "1 Katori (150g)", grams: 150 },
+      { serving: "100 grams", grams: 100 }
+    ],
+    nutrition_per_100g: { calories: 75, protein: 1.5, carbs: 10.0, fat: 3.5, fiber: 2 }
   }
-  // Add thousands more here...
 ];
 
 async function seedDatabase() {

@@ -106,11 +106,11 @@
             <div class="h-px bg-outline-variant flex-grow"></div>
           </div>
           <div class="flex gap-4 w-full">
-            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-outline-variant bg-surface-variant rounded-xl hover:bg-surface-container transition-colors text-on-surface" onclick="handleSocialSignUp()">
+            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-outline-variant bg-surface-variant rounded-xl hover:bg-surface-container transition-colors text-on-surface" onclick="handleSocialSignUp('google')">
               <img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKGQQOiCfmgXagStnEtp7QoRxsTryBgeT22fRlp-b6JBp0l64Acql7Mjvqo-aVD_YndFkoKVOPWXhSt04EDcUDholD2iro6WzioUztWYRsuRTJlHlpMwn767DwahssDTqX1-fqKnFQx0QaSs_FtBMC7svZwawBR7UkLHE8-yNePmfkOCHZFMaE1X7Gflsr2uYo8219X9AvxcDaUznarqqWT8Pj4ZuMNS6klblBsCBksPou6No0_8KbOcvABYZtCpOZ-pOOQ3np">
               <span class="text-sm font-semibold text-on-surface">Google</span>
             </button>
-            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-outline-variant bg-surface-variant rounded-xl hover:bg-surface-container transition-colors text-on-surface" onclick="handleSocialSignUp()">
+            <button class="flex-grow flex items-center justify-center gap-2 py-3 border border-outline-variant bg-surface-variant rounded-xl hover:bg-surface-container transition-colors text-on-surface" onclick="handleSocialSignUp('apple')">
               <span class="material-symbols-outlined text-[20px]">apps</span>
               <span class="text-sm font-semibold text-on-surface">Apple</span>
             </button>
@@ -150,6 +150,12 @@
       e.preventDefault();
       const name = document.getElementById('full_name').value;
       const email = document.getElementById('email').value;
+      
+      if (window.isDisposableEmail && window.isDisposableEmail(email)) {
+        alert("Temporary or disposable email addresses are not allowed. Please use a real email address.");
+        return;
+      }
+
       const password = document.getElementById('password').value;
       
       const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -188,8 +194,17 @@
       }
     });
 
-    function handleSocialSignUp() {
-      alert("Social signup is not configured yet with Supabase providers.");
+    async function handleSocialSignUp(provider) {
+      const { data, error } = await window.supabaseClient.auth.signInWithOAuth({
+        provider: provider,
+        options: {
+          redirectTo: window.location.origin + '/onboarding.html'
+        }
+      });
+      if (error) {
+        console.error("OAuth error:", error.message);
+        alert("Failed to sign up with " + provider + ": " + error.message);
+      }
     }
 
     function showToastAndRedirect() {

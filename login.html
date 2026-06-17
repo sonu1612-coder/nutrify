@@ -67,11 +67,11 @@
 
       <!-- Social Logins -->
       <div class="grid grid-cols-2 gap-4">
-        <button class="flex items-center justify-center gap-2 rounded-xl border border-outline-variant bg-surface-variant py-3 text-sm text-on-surface hover:bg-surface-container transition-colors active:scale-95" type="button" onclick="handleSocialLogin()">
+        <button class="flex items-center justify-center gap-2 rounded-xl border border-outline-variant bg-surface-variant py-3 text-sm text-on-surface hover:bg-surface-container transition-colors active:scale-95" type="button" onclick="handleSocialLogin('google')">
           <img alt="Google" class="h-5 w-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5NkwkDWC1aOOJnieMLJ6CmzJniyGcSHTXlmYqOaXuqO-qJLdHSKXAqqwQct32JHce5a-ozb58jNN8OcNkn5TZa7ZIxxAHPSEKHfLWY6C281h5fQLf9gvNuyjXjK5UWJMysVIyUsbE9EujBApFdKCSVK1AemGqHTONjH56z5dZWz6-5mFExHeCJ6hxT1Of84pJBdQdm8IZLdPn1AYvp6dPKJ1BZkGTLuDQpKWU59F3dGfj5q_Y45anGeXJfQ-LwUCfvQr5NdNX">
           Google
         </button>
-        <button class="flex items-center justify-center gap-2 rounded-xl border border-outline-variant bg-surface-variant py-3 text-sm text-on-surface hover:bg-surface-container transition-colors active:scale-95" type="button" onclick="handleSocialLogin()">
+        <button class="flex items-center justify-center gap-2 rounded-xl border border-outline-variant bg-surface-variant py-3 text-sm text-on-surface hover:bg-surface-container transition-colors active:scale-95" type="button" onclick="handleSocialLogin('apple')">
           <span class="material-symbols-outlined text-[20px]">apps</span>
           Apple
         </button>
@@ -104,6 +104,12 @@
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value;
+      
+      if (window.isDisposableEmail && window.isDisposableEmail(email)) {
+        alert("Temporary or disposable email addresses are not allowed. Please use a real email address.");
+        return;
+      }
+
       const password = document.getElementById('password').value;
       
       const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -143,8 +149,17 @@
       }
     });
 
-    function handleSocialLogin() {
-      alert("Social login is not configured yet with Supabase providers.");
+    async function handleSocialLogin(provider) {
+      const { data, error } = await window.supabaseClient.auth.signInWithOAuth({
+        provider: provider,
+        options: {
+          redirectTo: window.location.origin + '/dashboard.html'
+        }
+      });
+      if (error) {
+        console.error("OAuth error:", error.message);
+        alert("Failed to login with " + provider + ": " + error.message);
+      }
     }
 
     function proceedAfterAuth() {

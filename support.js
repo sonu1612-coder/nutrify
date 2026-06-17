@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const appUrl = window.location.origin; // e.g. http://127.0.0.1:5500
     
     // Escape markdown special characters if needed, but for simplicity we keep it standard
-    const text = `🚨 *New Support Message*\n\n*Name:* ${msgObj.user_name}\n*Email:* ${msgObj.user_email}\n\n*Message:*\n${msgObj.message}\n\n[Open Dashboard to Reply](${appUrl}/admin.html)`;
+    const text = `🚨 *New Support Message*\n\n*Name:* ${msgObj.user_name}\n*Email:* ${msgObj.user_email}\n*ID:* ${msgObj.user_id}\n\n*Message:*\n${msgObj.message}`;
     
     const url = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
     try {

@@ -146,6 +146,27 @@ async function initSupabase() {
     return false;
   };
 
+  // Email Validation for disposable/temporary domains
+  window.isDisposableEmail = function(email) {
+    if (!email) return false;
+    const disposableDomains = [
+      'tempmail.com', 'guerrillamail.com', 'mailinator.com', 
+      '10minutemail.com', 'yopmail.com', 'throwawaymail.com', 
+      'temp-mail.org', 'fakemail.net', 'disposablemail.com',
+      'tempmailaddress.com', 'tempmail.net', 'temp-mail.io', 
+      '10minemail.com', 'trashmail.com', 'tempmail.ninja',
+      'maildrop.cc', 'getairmail.com', 'sharklasers.com',
+      'tempmail.us', 'tempmail.co.uk', 'tempmail.fr',
+      'dispostable.com', 'nada.ltd', 'inbox.lv', '1secmail.com',
+      '1secmail.net', '1secmail.org', 'dropmail.me',
+      'tempmail.alt.com', 'emailondeck.com', 'mohmal.com', 'crazymail.com'
+    ];
+    const parts = email.split('@');
+    if (parts.length !== 2) return false;
+    const domain = parts[1].toLowerCase();
+    return disposableDomains.includes(domain);
+  };
+
 }
 
 initSupabase();
